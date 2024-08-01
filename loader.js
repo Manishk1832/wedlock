@@ -1,5 +1,5 @@
 'use client';
 
 export default function myImageLoader({ src, width, quality }) {
-    return `http://localhost:3000${src}?w=${width}&q=${quality || 75}`
+    return `https://wedlock.vigorify.in${src}?w=${width}&q=${quality || 75}`
   }

@@ -13,12 +13,12 @@ const Footer = () => {
 
   // Determine if the footer should be hidden
   const hiddenRoutes = [
-    "/verification",
-    "/register",
-    "/questions",
-    "/login",
-    "/forgotpassword",
-    "/createpassword",
+    "/verification/",
+    "/register/",
+    "/questions/",
+    "/login/",
+    "/forgotpassword/",
+    "/createpassword/",
   ];
   const isHiddenRoute = hiddenRoutes.includes(pathname);
 

@@ -17,8 +17,8 @@ const Navbar: React.FC = () => {
   const closeLogin = () => setLoginOpen(false);
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-  const isBlueBgRoute = pathname === "/mission" || pathname === "/advice" || pathname === "/help" || pathname === "/legal" || pathname === "/security" || pathname == "/faqs";
-  const hiddenRoutes = ["/verification", "/register", "/questions", "/login", "/forgotpassword", "/createpassword","/ChangePassword"];
+  const isBlueBgRoute = pathname === "/mission/" || pathname === "/advice/" || pathname === "/help" || pathname === "/legal/" || pathname === "/security/" || pathname == "/faqs/";
+  const hiddenRoutes = ["/verification/", "/register/", "/questions/", "/login/", "/forgotpassword/", "/createpassword/","/ChangePassword/"];
   const isHiddenRoute = hiddenRoutes.includes(pathname);
 
   if (isHiddenRoute) {
@@ -48,7 +48,7 @@ const Navbar: React.FC = () => {
               <div className="  md:my-0 px-0">
 
           
-              <Image src="/newLogo.png" alt="logo" width={300} height={100} className="w-[280px]  h-[90px]  px-0 " />
+              <Image src="/newlogo.png" alt="logo" width={300} height={100} className="w-[280px]  h-[90px]  px-0 " />
               </div>
             </div>
 
