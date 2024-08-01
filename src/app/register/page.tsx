@@ -16,7 +16,7 @@ const Registration = () => {
   return ( 
     <div className="min-w-screen min-h-screen flex flex-col items-center justify-center  bg-[#007EAF] ">
       <div className="flex items-center justify-center mb-14">
-        <Image src="/logowhite.png" alt="Logo"   width={238} height={90} className="w-72 h-24 mx-auto mb-2"/>
+        <Image src="/logowhite.png" alt="Logo"   width={238} height={90} className="w-72 h-24 mx-auto mb-2 fixed top-10"/>
       </div>
 
       <div className="flex flex-col items-center justify-center mt-8 mb-2">

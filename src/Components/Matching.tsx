@@ -21,9 +21,9 @@ const Matching = () => {
 
 
 
-      <div className="text-[#60457E]   sm:px-20 z-20 container w-100 3xl:px-28 4xl:px-24">
+      <div className="text-[#60457E]   sm:px-20 z-20 matchmaking container w-100 3xl:px-28 4xl:px-24">
         <h1 className="text-[64px]    text-[#4E3A63]  " style={{ fontFamily: 'Proxima-Nova-Bold,', fontWeight: 700, lineHeight:'83px'}}>Exclusive matchmaking</h1>
-        <p className="text-[28px]  pt-[21px] text-[#475467]">
+        <p className="text-[28px]  pt-[21px] text-[#475467] ">
           Cras at pellentesque eros. Nullam vitae sapienet felis eleifend
           luctus. Nam ac dui
         </p>
@@ -39,7 +39,7 @@ const Matching = () => {
           className="max-w-full max-h-full object-contain"
         />
       </div>
-        <div className="space-y-5 relative right-[55px]">
+        <div className="space-y-5 relative right-[55px] top_rating">
           <p className="w-[100%] text-white pt-6 sm:pt-0 text-[12px] sm:text-[16px]">
             Aenean interdum arcu sit amet nulla lacinia <br /> suscipit. Vivamus at
             laoreet mi. Fusce pulvinar commodo

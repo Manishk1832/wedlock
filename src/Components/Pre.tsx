@@ -11,7 +11,7 @@ function Pre() {
 
 <div className=' space-y-10 bg-[#E6F2F7] relative overflow-hidden px-5 sm:px-20 py-4 container m-auto'>
         <Image src="/Vector.png" alt='arw' className='absolute  w-[38rem] -right-4 -top-40' width={40} height={40}/>
-        <div className='space-y-7'>
+        <div className='space-y-7 matrimony'>
             <h1 className='text-[#007EAF] text-[64px] ' style={{fontFamily: 'Proxima-Nova,', fontWeight:700}}>The premier matrimony application </h1>
             <p className='text-[#475467]  text-[28px] text-left sm:leading-[42px]' style={{fontFamily: 'Proxima-Nova-Regular,'}}>With over two decades of reliable matchmaking experience, supported by a  committed Trust and Safety team at your service.
             </p>

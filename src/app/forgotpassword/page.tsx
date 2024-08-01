@@ -12,7 +12,7 @@ const ForgotPassword = () => {
   return (
     <div className="min-w-screen min-h-screen flex flex-col items-center justify-center  bg-[#007EAF] ">
       <div className="flex items-center justify-center mb-14 w-[268px] h-[90px]">
-        <Image src="/logowhite.png" alt="Logo" width={238} height={90}  />
+        <Image src="/logowhite.png" alt="Logo" width={238} height={90}  className='w-72 h-24 fixed top-10' />
       </div>
 
       <div className="flex flex-col items-center justify-center mt-8 mb-2">

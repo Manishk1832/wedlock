@@ -32,24 +32,165 @@
 }
 
 
-@media (min-width:300px) and (max-width:480px)
+
+@media (min-width:300px) and (max-width:572px)
 {
+
+  
+
   .hero_section
   {
-    height:100vh;
-    background-size:750% 250%;
-background-position:center;
-
+height:100vh;
   }
-}
 
-@media (min-width:300px) and (max-width:480px)
-{
   .hero_content
   {
    padding-top:40% !important;
 
   }
+
+  .happy_story h1 
+  {
+    font-size:28px !important;
+  }
+
+  .happy_story p 
+  {
+    font-size:16px;
+    line-height: 24px;
+  }
+
+
+
+  .body_question
+  {
+    height:50% !important;
+  }
+
+  .hero_content>h1 
+  {
+    font-size:64px;
+    line-height:77px !important;
+
+    
+  }
+
+  .hero_content>p 
+  {
+    font-size: 32px;
+    line-height: 48px;
+    letter-spacing:2%;
+    font-weight: 400 !important;
+    padding-top:16px;
+  }
+
+  .hero_content
+  {
+    text-align: left;
+    padding:0 16px 0 16px;
+    gap:16px !important;
+    display:grid;
+    place-content:center;
+    margin-top:2rem;
+  }
+
+  .link
+  {
+    margin-top:5rem !important;
+  }
+
+  .matchmaking>h1
+  {
+    font-size:28px;
+  }
+
+  .matchmaking>p 
+  {
+    font-size:16px !important;
+    line-height:24px !important;
+  }
+
+.get_app>h1
+{
+  font-size:28px;
+}
+
+.get_app>p 
+{
+  font-size:16px;
+}
+
+.top_rating
+{
+  position: relative;
+  right:0px !important;
+}
+
+.achieve>h1 
+{
+  font-size:24px;
+}
+
+
+.youtube>h1
+{
+  font-size:28px !important;
+  line-height:42px !important;
+
+}
+
+.youtube>p 
+{
+  font-size:16px;
+  line-height: 24px;
+
+}
+
+.matrimony>h1
+{
+  font-size:28px !important;
+  line-height:42px !important;
+}
+
+.matrimony>p
+{
+  font-size:16px !important;
+  line-height: 24px !important;
+
+}
+
+.connect_match>h1 
+{
+  font-size:24px ;
+  line-height:42px !important;
+
+}
+
+
+.connect_match>p 
+{
+  font-size:16px !important;
+  line-height: 24px !important;
+}
+
+.ai_driven>h1
+{
+  font-size:24px ;
+  line-height:42px !important;
+}
+
+.browse>h1
+{
+  font-size:24px ;
+  line-height:42px !important;
+}
+
+.browse>p 
+{
+  font-size:16px !important;
+  line-height: 24px !important;
+}
+
 }
 
 @media (min-width:0px) and (max-width:480px)

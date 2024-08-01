@@ -19,7 +19,7 @@ const Feature = () => {
         />
 
         <div className=' flex flex-col md:flex-row justify-between text-white md:p-20 p-8  '>
-          <div className='space-y-6 '>
+          <div className='space-y-6 connect_match'>
 
             <h1 className='text-[64px]  leading-[83.2px] ' style={{ fontFamily: 'Proxima-Nova-bold,', fontWeight: '700' }}>Connect with matches <br /> the way you like
             </h1>

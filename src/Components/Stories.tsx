@@ -38,7 +38,7 @@ const Stories = () => {
         alt="arw"
         className="absolute  w-[42rem] rotate-12 -right-10 -top-40 z-10"
       />
-      <div className="md:space-y-10 space-y-5">
+      <div className="md:space-y-10 space-y-5 happy_story">
         <div className="flex items-center justify-between gap-5">
           <h1 className="text-[64px] " style={{ fontFamily: 'Proxima-Nova-bold',fontWeight:700, lineHeight: '89.5px' }}>Happy Stories</h1>
           <div className="flex items-center gap-4 z-10">

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { FaArrowRightLong, FaArrowLeft } from "react-icons/fa6";
+import { FaArrowRightLong } from "react-icons/fa6";
 import { useRouter } from 'next/navigation';
 
 import Image from "next/image";
@@ -9,7 +9,7 @@ const questions = [
   {
     id: 1,
     text: "I am a",
-    options: ["men", "women", "Non-binary"],
+    options: ["Man", "Women", "Non-binary"],
     text2: "I am looking for a",
     options1: ["Man", "Women", "Non-binary"],
     type: "checkbox",
@@ -139,6 +139,7 @@ const MultiStepForm: React.FC = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<any[]>([]);
   const [selectedOption, setSelectedOption] = useState<any>({});
+  // const router = useRouter();
 
   const handleOptionChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -168,6 +169,8 @@ const MultiStepForm: React.FC = () => {
     } else {
       console.log("Form completed", updatedAnswers);
       router.push("/register");
+      
+      
     }
   };
 
@@ -175,9 +178,10 @@ const MultiStepForm: React.FC = () => {
     e.preventDefault();
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
-    } else {
+    }else{
       router.push("/register");
     }
+
   };
 
   const handleBack = () => {
@@ -194,12 +198,12 @@ const MultiStepForm: React.FC = () => {
             className={`grid ${
               question.options && question.options1
                 ? " grid-cols-1  xl:w-auto md:grid-cols-3 gap-3 pl-4 pr-4"
-                : "w-[30%]  grid-cols-1 gap-2"
+                : "w-[30%]  grid-cols-1 gap-2 "
             } ${
               question.options && question.options.length > 5
-                ? "grid-cols-1 w-full md:w-auto md:grid-cols-5 gap-4 pl-4 pr-4"
-                : "mt-4 grid-cols-1 gap-2 w-full md:w-[50%] px-2 text-sm"
-            } mb-2 mt-4`}
+              ? "grid-cols-1 w-full md:w-auto md:grid-cols-5 gap-4 pl-4 pr-4"
+              : " grid-cols-1  w-full md:w-[50%] px-2 text-sm"
+            } `}
           >
             {question.options.map((option: string, index: number) => (
               <div
@@ -228,7 +232,7 @@ const MultiStepForm: React.FC = () => {
           </div>
           {question.options1 && (
             <>
-              <h2 className="mt-4  text-center font-bold text-[40px] ">
+              <h2 className="mt-4  text-center font-bold text-2xl ">
                 {question.text2}
               </h2>
               <div
@@ -271,40 +275,42 @@ const MultiStepForm: React.FC = () => {
     } else if (question.type === "Dropdown") {
       return (
         <>
-          <div className=" flex items-center justify-center mt-10 xl:w-[40%] w-full px-2 xl:px-0 ">
-            {question.options && (
+        <div className=" flex items-center justify-center mt-10 xl:w-[40%] w-full px-2 xl:px-0 ">
+          {question.options && (
+            <select
+              name={`question-${currentQuestion}-1`}
+              value={selectedOption[`question-${currentQuestion}-1`] || ""}
+              onChange={handleOptionChange}
+              className="w-full h-10 xl:px-5 text-white  bg-[#7DB9D1]
+              ]
+              rounded-md"
+            >
+              <option value="">Select an option</option>
+              {question.options.map((option: string, index: number) => (
+                <option key={index} value={option}>
+                  {option}
+                </option>
+              ))}
+            </select>
+          )}
+          {question.options1 && (
+            <>
+              <span className="ml-2 mr-2">{question.text2}</span>
               <select
-                name={`question-${currentQuestion}-1`}
-                value={selectedOption[`question-${currentQuestion}-1`] || ""}
+                name={`question-${currentQuestion}-2`}
+                value={selectedOption[`question-${currentQuestion}-2`] || ""}
                 onChange={handleOptionChange}
-                className="w-full h-10 xl:px-5 text-white  bg-[#7DB9D1] rounded-md"
+                className="w-full h-10 px-0 xl:px-5 text-white bg-[#7DB9D1] rounded-md mt-2"
               >
                 <option value="">Select an option</option>
-                {question.options.map((option: string, index: number) => (
+                {question.options1.map((option: string, index: number) => (
                   <option key={index} value={option}>
                     {option}
                   </option>
                 ))}
               </select>
-            )}
-            {question.options1 && (
-              <>
-                <span className="ml-2 mr-2">{question.text2}</span>
-                <select
-                  name={`question-${currentQuestion}-2`}
-                  value={selectedOption[`question-${currentQuestion}-2`] || ""}
-                  onChange={handleOptionChange}
-                  className="w-full h-10 px-0 xl:px-5 text-white bg-[#7DB9D1] rounded-md mt-2"
-                >
-                  <option value="">Select an option</option>
-                  {question.options1.map((option: string, index: number) => (
-                    <option key={index} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </>
-            )}
+            </>
+          )}
           </div>
         </>
       );
@@ -312,79 +318,60 @@ const MultiStepForm: React.FC = () => {
   };
 
   return (
-    <div className="min-w-screen min-h-screen h-[100vh] flex flex-col items-center justify-center  bg-[#007EAF] text-white ">
-
-      <div className="flex items-center justify-start w-full px-4">
-        {currentQuestion > 0 && (
-          <button
-            onClick={handleBack}
-            className="flex items-center gap-2 text-[24px] text-white fixed top-10 left-32"
-          >
-            <FaArrowLeft />Back
-          </button>
-        )}
-      </div>
-
-      <Image
-        src="/logowhite.png"
-        width={400}
-        height={500}
-        alt="Wedlock Logo"
-        className="w-72 h-24 mx-auto mb-2 fixed top-10"
-      />
-
-      <div className="xl:w-[50vw] w-full mt-10 text-center pl-4 pr-4 ">
-        <h2 className="text-[25px] font-bold">
-          Question {currentQuestion + 1}/{questions.length}
-        </h2>
-        <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-6 mb-4 ">
-          <div
-            className="bg-green-500 h-2.5 rounded-full "
-            style={{
-              width: `${((currentQuestion + 1) / questions.length) * 100}%`,
-            }}
-          ></div>
-        </div>
-        <p className="my-8 text-2xl md:text-4xl font-semibold ">
-          {questions[currentQuestion].text ||
-            questions[currentQuestion].text2}
-        </p>
-        <p className="text-[#FFFFFF90] my-8">
-          {questions[currentQuestion].summary}
-        </p>
-      </div>
-
-      <div className="w-full  space-y-10 ">
-        <form
-          className="flex flex-col items-center justify-center gap-4   space-y-4"
-          onSubmit={handleSubmit}
-        >
-          {renderOptions(questions[currentQuestion])}
-          <div className="flex gap-4  justify-between fixed  left-[78%] bottom-6  ">
-            {questions[currentQuestion].skip && (
-              
-              
-              <button
-                type="button"
-                className="px-4  py-2 hidden text-white bg-[#007EAF] border rounded-md h-[48px]"
-                onClick={handleSkip}
-              >
-                Skip the question
-              </button>
-
-
-
-            )}
-            <button
-              type="submit"
-              className="  py-2 text-[#007EAF] bg-white rounded-md w-[187px] text-[20px] items-center gap-2 h-[48px]"
-            >
-              Continue {/*<FaArrowRightLong />*/}
-            </button>
+    <div className="min-w-screen min-h-screen flex flex-col items-center justify-top  bg-[#007EAF] text-white ">
+        <Image
+            src="/logowhite.png"
+            width={400}
+            height={500}
+            alt="Wedlock Logo"
+            className="w-72 h-24 mx-auto  mb-2 "
+          />
+          
+        <div className=" xl:w-[50vw] w-full mt-10 text-center pl-4 pr-4 py-10">
+          <h2 className="text-2xl font-bold py-4">
+            Question {currentQuestion + 1}/{questions.length}
+          </h2>
+          <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700 mt-2 mb-4">
+            <div
+              className="bg-green-500 h-2.5 rounded-full"
+              style={{
+                width: `${((currentQuestion + 1) / questions.length) * 100}%`,
+              }}
+            ></div>
           </div>
+          <p className="my-4 text-2xl md:text-4xl font-semibold py-4">
+            {questions[currentQuestion].text ||
+              questions[currentQuestion].text2}
+          </p>
+          <p className="text-[#FFFFFF90] py-4">
+            {questions[currentQuestion].summary}
+          </p>
+        </div>
+      <div className="w-full  space-y-6 ">
+    
+        <form className="flex  flex-col items-center justify-center gap-2   space-y-4" onSubmit={handleSubmit}>
+          {renderOptions(questions[currentQuestion])}
+          <div className="flex justify-end w-auto max-w-lg  fixed right-[4rem] gap-4 bottom-6 ">
+  {currentQuestion > 0 && (
+    <button
+      type="button"
+      className="py-2 px-4 text-white bg-[#007EAF] rounded-md text-center w-[144px]  gap-2"
+      onClick={handleBack}
+    >
+       Back
+    </button>
+  )}
+  <button
+    type="submit"
+    className="py-2  text-[#007EAF] bg-white rounded-md  text-center gap-2 w-[144px]"
+  >
+    Continue 
+  </button>
+</div>
+
         </form>
       </div>
-
+    
     </div>
   );
 };

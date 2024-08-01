@@ -14,7 +14,7 @@ const GetApp = () => {
       <div className="flex flex-col lg:flex-row justify-between lg:justify-between flex-wrap">
         <div className="bg-container flex flex-col lg:flex-row justify-between w-full px-6 md:px-16  md:py-12">
           <div className="">
-            <div className="  3xl:pt-12">
+            <div className="  3xl:pt-12 get_app">
               <h1 className=" text-[64px]" style={{ fontFamily: 'Proxima-Nova-Bold,', fontWeight: 700, lineHeight: '89.6px' }}>Get the app!</h1>
               <p className="text-[28px] pt-[21px]  text-start" style={{ fontFamily: 'Proxima-Nova-Regular,', lineHeight: '32px sm:42px lg:42px' }}>
                 Lorem ipsum dolor sit amet consectetur. <br /> Dui mauris dictum ultrices rutrum nec arcu <br />vel. Viverra egestas vitae aenean placerat <br />faucibus pharetra.

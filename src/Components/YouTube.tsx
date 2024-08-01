@@ -13,7 +13,7 @@ const YouTube = () => {
         alt="arw"
         className="absolute  w-[52rem] -right-56 top-2 z-10" width={40} height={40}
       />
-    <div className='py-10 sm:py-20  sm:px-14 '>
+    <div className='py-10 sm:py-20  sm:px-14 youtube'>
        
         <h1 className='text-[64px]  text-[#007EAF]  ' style={{fontFamily: 'Proxima-Nova-bold,',fontWeight: 700,lineHeight:'83.2px'}}>Introducing: A new wedlock experience
         </h1>

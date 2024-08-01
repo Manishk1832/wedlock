@@ -6,7 +6,7 @@ const CreatePassword = () => {
   return (
     <div className="min-w-screen h-screen flex flex-col items-center justify-center   bg-[#007EAF] ">
          <div className="flex items-center justify-center mb-2 md:mb-10 ">
-        <Image src="/logowhite.png" alt="" width={268} height={90} />
+        <Image src="/logowhite.png" alt="" width={268} height={90} className='w-72 h-24 fixed top-10' />
       </div>
       <div className="flex flex-col items-center justify-center mt-4 ">
         <div className="bg-white flex items-center justify-center rounded-full w-12 h-12">

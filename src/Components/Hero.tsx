@@ -53,9 +53,9 @@ function Hero() {
 
             <Link
               href={"/questions"}
-              className="flex items-center justify-center xl:mt-16 bg-[#009BDA] rounded-full w-[249px] h-[64.46px]  text-[20px] xl:m-auto text-white-700" style={{ fontFamily: 'Proxima-Nova-Regular,', lineHeight: '48px', }}
+              className="flex items-center justify-center link xl:mt-16 bg-[#009BDA] rounded-full w-[249px] h-[64.46px]  text-[20px] xl:m-auto text-white-700" style={{ fontFamily: 'Proxima-Nova-Regular,', lineHeight: '48px', }}
             >
-              <div className=" text-center  text-white-700 font-bold">
+              <div className=" text-center link_btn  text-white-700 font-bold">
                 <span >Start free today</span>
                
               </div>
