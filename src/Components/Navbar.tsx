@@ -7,6 +7,7 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Login from './model/Login';
+import path from 'path';
 
 const Navbar: React.FC = () => {
   const pathname = usePathname();
@@ -17,19 +18,18 @@ const Navbar: React.FC = () => {
   const closeLogin = () => setLoginOpen(false);
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-  const isBlueBgRoute = pathname === "/mission/" || pathname === "/advice/" || pathname === "/help" || pathname === "/legal/" || pathname === "/security/" || pathname == "/faqs/";
-  const hiddenRoutes = ["/verification/", "/register/", "/questions/", "/login/", "/forgotpassword/", "/createpassword/","/ChangePassword/"];
+  const isBlueBgRoute = pathname === "/mission/" || pathname === "/advice/" || pathname === "/help" || pathname === "/legal/" || pathname === "/security/" || pathname == "/faqs/" ||     pathname === "/contact/"|| pathname ==="/cookies-policy/" || pathname === "/community-guidelines/"||
+  pathname === "/privacy-policy/"||pathname === "/terms-conditions/"||pathname ==="/about/"||pathname === "/plan/"
+  const  hiddenRoutes = ["/verification/", "/register/", "/questions/", "/login/", "/forgotpassword/", "/createpassword/","/ChangePassword/" ];
   const isHiddenRoute = hiddenRoutes.includes(pathname);
 
   if (isHiddenRoute) {
     return null;
   }
-
+  
   return (
     <>
       <div className={`absolute  navbar z-10 w-full h-auto 3xl:px-32 7xl:px-32 8xl:px-32 xl:px-10 text-white ${isBlueBgRoute ? 'bg-[#007eb0] h-20' : ' '}`}>
-
-
 
         <div className={`${isBlueBgRoute ? ' ' : ' bg-[#007eb0] '}`}></div>
 
@@ -38,9 +38,9 @@ const Navbar: React.FC = () => {
         <div className="flex px-3 xl:px-16 items-center justify-between  w-full">
           <div className='text-white '>
             <ul className='hidden md:flex gap-5 sm:mt-7 text-[24px]'>
-              <li><Link href="/mission">Mission</Link></li>
-              <li><Link href="/advice">Advice</Link></li>
-              <li><Link href="/help">Help</Link></li>
+              <li><Link href="/mission/">Mission</Link></li>
+              <li><Link href="/advice/">Advice</Link></li>
+              <li><Link href="/help/">Help</Link></li>
             </ul>
           </div>
             <div className=" px-0 mr-8">
@@ -77,12 +77,12 @@ const Navbar: React.FC = () => {
           </button>
         </div>
         <nav className="flex flex-col p-4 text-[24px]">
-          <Link href="/mission" className="py-2 text-white" onClick={toggleSidebar}>Mission</Link>
-          <Link href="/advice" className="py-2 text-white" onClick={toggleSidebar}>Advice</Link>
-          <Link href="/help" className="py-2 text-white" onClick={toggleSidebar}>Help</Link>
+          <Link href="/mission/" className="py-2 text-white" onClick={toggleSidebar}>Mission</Link>
+          <Link href="/advice/" className="py-2 text-white" onClick={toggleSidebar}>Advice</Link>
+          <Link href="/help/" className="py-2 text-white" onClick={toggleSidebar}>Help</Link>
         </nav>
       </div>
-
+ 
 
       <div className={`fixed inset-0 bg-black bg-opacity-50 z-10 ${isSidebarOpen ? 'block' : 'hidden'}`} onClick={toggleSidebar}></div>
 

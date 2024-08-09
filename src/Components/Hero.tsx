@@ -41,14 +41,13 @@ function Hero() {
               className="text-[123px] text-[#FFFFFF]"
               style={{ fontFamily: 'Proxima-Nova-bold,', lineHeight: '149.81px', letterSpacing: '2%', fontWeight:'700' }}
             >
-              Love At First Swipe
+              Married at First Sight
             </h1>
             <p
               className="  text-[#FFFFFF] text-[28px] xl:pt-8"
               style={{ fontFamily: 'Proxima-Nova-Regular,', lineHeight: '42px', letterSpacing: '2%', fontWeight:'400' }}
             >
-              Australia's most trusted Matrimony  Website and  <br />Mobile
-              Application
+              Australia’s premier AI-powered e-matchmaking service specializes in fostering connections among individuals from diverse cultural, national, and community backgrounds.
             </p>
 
             <Link
