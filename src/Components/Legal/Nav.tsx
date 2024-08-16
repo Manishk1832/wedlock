@@ -15,28 +15,23 @@ interface activeSectionProps {
   activeSectionData: string | null;
 }
 
+const Nav: React.FC<activeSectionProps> = ({
+  activeSectionData,
+}: activeSectionProps) => {
+  const [activeSection, setActiveSection] = useState<string | null>(
+    `${activeSectionData}`
+  );
 
-const Nav: React.FC<activeSectionProps> = ({ activeSectionData }:activeSectionProps ) => {
-  const [activeSection, setActiveSection] = useState<string | null>(`${activeSectionData}`);
-
- 
   return (
     <div className="w-full md:w-72 p-4 bg-white shadow-md">
       {sections.map(({ title, links }) => (
         <div key={title} className="mt-4 cursor-pointer">
-          <div className="flex items-center justify-between" >
+          <div className="flex items-center justify-between">
             <h2 className="font-semibold">
               <Link href={links}>{title}</Link>
             </h2>
-
-            
           </div>
-          <hr  className="my-2 text-[#E6F2F7]"/>
-           
-
-
-
-
+          <hr className="my-2 text-[#E6F2F7]" />
         </div>
       ))}
     </div>

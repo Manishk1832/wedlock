@@ -24,6 +24,8 @@ const Footer = () => {
     "/changepassword/",
     "/verification/",
     "/user/",
+    "/register/",
+    "/createpassword/",
     "/personal/",
     "/location/",
     "/profile/",
@@ -32,6 +34,7 @@ const Footer = () => {
     "/qualification/",
     "/successfully/",
     "/photoupload/",
+    "/test/"
   ];
   const isHiddenRoute = hiddenRoutes.includes(pathname);
 

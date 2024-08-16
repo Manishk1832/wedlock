@@ -1,35 +1,50 @@
-// "use client"
-// import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-// import { cookies } from 'next/headers'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { RootState } from '../store';
 
-// const accessToken = cookies().get('accessToken')?.value || null;
-// const refreshToken = cookies().get('refreshToken')?.value || null;
+export const userApi = createApi({
+  reducerPath: 'userApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'http://localhost:8000/api/v1/user/',
+    credentials: 'include',  
+    prepareHeaders: (headers, { getState }) => {
+      const accessToken = (getState() as RootState).user.accessToken;
+      if (accessToken) {
+        headers.set('Authorization', accessToken);
+      }
+   
+      return headers;
+    }, 
+  }),
+  tagTypes: ['User'],
 
+  endpoints: (builder) => ({
+    registerUser: builder.mutation({
+      query: (user) => ({
+        url: 'registration',
+        method: 'POST',
+        body: user,
+      }),
 
+    }),
 
-// export const userApi = createApi({
-//   reducerPath: 'userApi',
-//   baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:8000/api/v1', prepareHeaders: (headers, { getState }) => {
-//     const token = (getState() as any).user.accessToken;
-//     if (token) {
-//       headers.set('Authorization', `Bearer ${token}`);
-//     }
-//     return headers;
-    
-//   } }),
- 
+    verifyOtp:builder.mutation({
+      query : (data)=> ({
+        url:'activate-user',
+        method:'POST',
+        body: data
+      })
+    }),
 
+    setPassword:builder.mutation({
+      query : (data)=> ({
+        url:'set-password',
+        method:'POST',
+        body: data
+      })
+    })
 
-//   tagTypes: ['User'],
+  }),
 
+});
 
-//   endpoints: (builder) => ({
-//     getUser: builder.query({
-//       query: () => 'user',
-//       providesTags: ['User'],
-//     }),
-//   }),
-
-// });
-
-// export const { useGetUserQuery } = userApi;
+export const { useRegisterUserMutation,useVerifyOtpMutation,useSetPasswordMutation} = userApi;

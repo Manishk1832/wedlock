@@ -32,18 +32,18 @@ const Page = () => {
   ];
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-[#007EAF] px-5 md:px-20 lg:px-40 3xl:px-60">
+    <div className="flex min-h-screen flex-col items-center  justify-center bg-[#007EAF] px-5 md:px-20 lg:px-40 3xl:px-60">
       <Image
-        src="/logoau.png"
-        alt="logo"
-        width={150}
-        height={150}
-        className="mb-5 mt-10 h-auto w-40 md:w-52 lg:w-60 2xl:w-80 3xl:mt-20"
-      />
+            src="/logowhite.png"
+            width={400}
+            height={500}
+            alt="Wedlock Logo"
+            className="w-72 h-24 mx-auto  mb-2 "
+          />
       <div className="mt-5 w-full flex-grow xl:mt-20 2xl:mt-10">
         <div className="mb-6 text-center text-white md:mb-20">
           <h1
-            className="text-xl md:mb-2 md:text-3xl 2xl:text-5xl"
+            className="text-2xl md:mb-2 md:text-3xl 2xl:text-5xl"
             style={{ fontFamily: "Proxima-Nova-Bold, sans-serif" }}
           >
             Other Details
