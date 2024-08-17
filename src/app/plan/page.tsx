@@ -33,8 +33,8 @@ const page = () => {
         </div>
         <div className="mt-5 grid grid-cols-1 gap-4 md:grid-cols-3 md:px-5 lg:gap-8 xl:mt-4 xl:gap-24 2xl:gap-32 3xl:gap-36 3xl:px-60">
           <div className="space-y-4    rounded-lg bg-white p-4 border shadow">
-            <div className="flex text-[#007EAF]">
-              <h2 className="font-semibold text-lg">Basic</h2>
+            <div className="flex gap-0.5 text-[#007EAF]">
+              <h2 className="font-semibold text-lg">Standard</h2>
               <h2 className="text-md  font-semibold text-lg">(Free)</h2>
             </div>
 
@@ -80,7 +80,7 @@ const page = () => {
             <div className="space-y-4">
               <h1 className="font-semibold">Premium</h1>
               <h1 className="text-4xl font-bold">
-                ₹1,625{" "}
+                AUD 19.99{" "}
                 <span className="text-base font-normal text-[#FFFFFF33]">
                   /Per Month
                 </span>
@@ -129,9 +129,9 @@ const page = () => {
           </div>
           <div className="space-y-4 flex flex-col   rounded-lg bg-white p-4 text-white shawdow border">
             <div className="space-y-4">
-              <h1 className="font-semibold text-[#007EAF]">Exclusive</h1>
+              <h1 className="font-semibold text-[#007EAF]">Elite</h1>
               <h1 className="text-4xl text-[#007EAF] font-bold">
-                ₹1,752{" "}
+                AUD 39.99{" "}
                 <span className="text-base font-normal text-[#42526B]">
                   /Per Month
                 </span>

@@ -1,44 +1,53 @@
 "use client";
 import Image from "next/image";
-import React, { useState } from "react";
+import React from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 import "../../app/font.css";
 
+const personalDetailsSchema = z.object({
+  firstName: z.string().min(1, { message: "First name is required" }),
+  lastName: z.string().min(1, { message: "Last name is required" }),
+  displayName: z.string().optional(),
+  contactNumber: z
+    .string()
+    .min(1, { message: "Contact number is required" })
+    .length(10, { message: "Contact number must be 10 digits" })
+    .regex(/^\d+$/, { message: "Contact number must contain only digits" }),
+  maritalStatus: z.enum(["Yes", "No"], {
+    errorMap: () => ({ message: "Marital status is required" }),
+  }),
+  numberOfChildren: z.enum(["0", "1", "2", "3", "4", "5"]).optional(),
+  description: z.string().min(1, { message: "Description is required" }),
+});
+
+type PersonalDetailsFormData = z.infer<typeof personalDetailsSchema>;
+
 const PersonalDetailsForm = () => {
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    displayName: "",
-    contactNumber: "",
-    maritalStatus: "",
-    numberOfChildren: "",
-    description: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<PersonalDetailsFormData>({
+    resolver: zodResolver(personalDetailsSchema),
   });
 
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-    console.log("Form data:", formData);
-  };
-
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-    console.log("Form data:", formData);
+  const onSubmit = (data: PersonalDetailsFormData) => {
+    console.log("Form data:", data);
   };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#007EAF] px-5 md:px-20 lg:px-40 3xl:px-60">
-     <Image
-            src="/logowhite.png"
-            width={400}
-            height={500}
-            alt="Wedlock Logo"
-            className="w-72 h-24 mx-auto  mb-2 "
-          />
+      <Image
+        src="/logowhite.png"
+        width={400}
+        height={500}
+        alt="Wedlock Logo"
+        className="w-72 h-24 mx-auto mb-2"
+      />
 
-      <div className="mt-5 w-full  flex-grow xl:mt-20 2xl:mt-10">
+      <div className="mt-5 w-full flex-grow xl:mt-20 2xl:mt-10">
         <div className="mb-4 text-center text-white md:mb-10">
           <h1
             className="text-2xl md:mb-2 md:text-3xl 2xl:text-5xl"
@@ -52,8 +61,8 @@ const PersonalDetailsForm = () => {
         </div>
 
         <form
-          onSubmit={handleSubmit}
-          className="md:px-30 mt-5  grid grid-cols-1 md:grid-cols-2 md:gap-2  xl:px-40 2xl:px-60 3xl:mt-20 3xl:px-60"
+          onSubmit={handleSubmit(onSubmit)}
+          className="md:px-30 mt-5 grid grid-cols-1 md:grid-cols-2 md:gap-2 xl:px-40 2xl:px-60 3xl:mt-20 3xl:px-60"
         >
           <div className="col-span-2 mt-2">
             <label className="block text-white">Your name*</label>
@@ -61,24 +70,28 @@ const PersonalDetailsForm = () => {
               <div className="mt-2 w-full md:mt-0 md:w-1/2 md:pr-2">
                 <input
                   type="text"
-                  name="firstName"
+                  {...register("firstName")}
                   placeholder="First name"
-                  value={formData.firstName}
-                  onChange={handleChange}
                   className="w-full rounded bg-[#F9F5FFE5] p-2"
-                  required
                 />
+                {errors.firstName && (
+                  <p className="text-orange-200 text-sm mt-1">
+                    {errors.firstName.message}
+                  </p>
+                )}
               </div>
               <div className="mt-2 w-full md:mt-0 md:w-1/2 md:pl-2">
                 <input
                   type="text"
-                  name="lastName"
+                  {...register("lastName")}
                   placeholder="Last name"
-                  value={formData.lastName}
-                  onChange={handleChange}
                   className="w-full rounded border border-gray-300 bg-[#F9F5FFE5] p-2"
-                  required
                 />
+                {errors.lastName && (
+                  <p className="text-orange-200 text-sm mt-1">
+                    {errors.lastName.message}
+                  </p>
+                )}
               </div>
             </div>
           </div>
@@ -87,10 +100,8 @@ const PersonalDetailsForm = () => {
             <label className="block text-white">Display name</label>
             <input
               type="text"
-              name="displayName"
+              {...register("displayName")}
               placeholder="Display name"
-              value={formData.displayName}
-              onChange={handleChange}
               className="w-full rounded border border-gray-300 bg-[#F9F5FFE5] p-2"
             />
           </div>
@@ -99,35 +110,38 @@ const PersonalDetailsForm = () => {
             <label className="block text-white">Contact number*</label>
             <input
               type="text"
-              name="contactNumber"
+              {...register("contactNumber")}
               placeholder="Contact number"
-              value={formData.contactNumber}
-              onChange={handleChange}
               className="w-full rounded border-none bg-[#F9F5FFE5] p-2"
-              required
             />
+            {errors.contactNumber && (
+              <p className="text-orange-200 text-sm mt-1">
+                {errors.contactNumber.message}
+              </p>
+            )}
           </div>
+
           <div className="col-span-2 mt-2 grid gap-4 md:grid-cols-2">
             <div className="col-span-1">
               <label className="block text-white">Marital status*</label>
               <select
-                name="maritalStatus"
-                value={formData.maritalStatus}
-                onChange={handleChange}
+                {...register("maritalStatus")}
                 className="w-full rounded border bg-[#F9F5FFE5] p-2 text-[#838E9E]"
-                required
               >
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
+              {errors.maritalStatus && (
+                <p className="text-orange-200 text-sm mt-1">
+                  {errors.maritalStatus.message}
+                </p>
+              )}
             </div>
 
             <div className="col-span-1">
               <label className="block text-white">Number of children</label>
               <select
-                name="numberOfChildren"
-                value={formData.numberOfChildren}
-                onChange={handleChange}
+                {...register("numberOfChildren")}
                 className="w-full rounded border bg-[#F9F5FFE5] p-2 text-[#838E9E]"
               >
                 <option value="0">0</option>
@@ -145,25 +159,27 @@ const PersonalDetailsForm = () => {
               Description about yourself*
             </label>
             <textarea
-              name="description"
+              {...register("description")}
               placeholder="Description"
               rows={4}
-              value={formData.description}
-              onChange={handleChange}
               className="w-full resize-none rounded border border-gray-300 bg-[#F9F5FFE5] p-2"
-              required
             ></textarea>
+            {errors.description && (
+              <p className="text-orange-200 text-sm mt-1">
+                {errors.description.message}
+              </p>
+            )}
+          </div>
+
+          <div className="col-span-2 mt-4 flex justify-end">
+            <button
+              type="submit"
+              className="w-full md:w-32 rounded bg-[#F9F5FFE5] px-4 py-2 text-[#007EAF]"
+            >
+              Save
+            </button>
           </div>
         </form>
-      </div>
-
-      <div className="mb-5 flex w-full justify-end py-8 pb-4 xl:px-10 2xl:mb-4 2xl:px-0 3xl:mb-20 3xl:px-0">
-        <button
-          type="submit"
-          className="w-full rounded bg-[#F9F5FFE5] px-4 py-2 text-[#007EAF] md:w-20 2xl:w-32"
-        >
-          Save
-        </button>
       </div>
     </div>
   );

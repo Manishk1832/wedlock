@@ -396,14 +396,14 @@ const page = () => {
             <p className="pb-4">
             Free Trials. If you sign up for a free trial and do not cancel, your trial may convert into a paid subscription and your Payment Method will be charged at the then-current price for such subscription. Once your free trial converts to a paid subscription, your paid subscription will continue to automatically renew at the end of each period, and your Payment Method will be charged, until you cancel. To avoid charges for a new subscription period, you must cancel before the end of the then-current subscription period or free trial period as described above. Deleting your account or deleting the application from your device does not cancel your free trial. If you have signed up for a free trial on Wedlock through the Apple Store or Google Play Store previously, you will not be eligible for another free trial and you will then be automatically signed up to a subscription and charged as described in this paragraph.
             </p>
-            <p className="pb-4">
+            <p className="pb-4 font-semibold">
             Refunds. Generally, all charges for purchases are non-refundable, and there are no refunds or credits for partially used periods.
 
             </p>
-            <p>
+            <p className="font-semibold text-md">
             To request a refund:
             </p>
-            <p className="pb-4">To request a refund: In addition to cancelling, eligible subscribers must request a refund to receive one. If you subscribed using your Apple ID, refunds are handled by Apple, not Wedlock. To request a refund, go to iTunes, click on your Apple ID, select “Purchase history,” find the transaction and hit “Report Problem”. You can also submit a request at Apple Support.
+            <p className="pb-4">In addition to cancelling, eligible subscribers must request a refund to receive one. If you subscribed using your Apple ID, refunds are handled by Apple, not Wedlock. To request a refund, go to iTunes, click on your Apple ID, select “Purchase history,” find the transaction and hit “Report Problem”. You can also submit a request at Apple Support.
             </p>
             <p className="pb-4">For all other purchases: please contact customer support with your order number (you can find the order number in the order confirmation email, or if you purchased from the Google Play Store by logging in to Google Wallet). You may also mail or deliver a signed and dated notice which states that you, the buyer, are cancelling this agreement, or words of similar effect. Please also include the email address or mobile number associated with your account along with your order number. This notice shall be emailed to: info@wedlock.au.
             </p>

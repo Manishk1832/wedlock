@@ -6,8 +6,8 @@ import ClientProvider from "./ClientProvider";
 import { Toaster, toast } from "sonner";
 
 export const metadata: Metadata = {
-  title: "WedLock",
-  description: "This is a matrimonial website",
+  title: "WedLock - Matrimony Site and Mobile App",
+  description: "Welcome to Wedlock.au - Australia’s most trusted matrimony website and mobile app comes with the feature - Wedlock Go, that allows members to meet up to 30 minutes over video calls.",
 };
 
 export default function RootLayout({

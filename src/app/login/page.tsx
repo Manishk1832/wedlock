@@ -10,8 +10,6 @@ const Login = () => {
         <Image src="/logowhite.png" alt="" width={268} height={90} className='w-72 h-24 fixed top-10' />
       </div>
 
-
-
       <div className="flex flex-col items-center justify-center  mt-20">
         <div className="bg-white flex items-center justify-center rounded-md w-12 h-12">
           <Image src="/login.png" alt="login" width={20} height={20} />

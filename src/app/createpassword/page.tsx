@@ -52,7 +52,7 @@ const CreatePassword = () => {
     }
   
     try {
-      const res = await setPassword({ password: confirmPassword, answers: parsedAnswers });
+      const res = await setPassword({ password: confirmPassword, answer: parsedAnswers });
       
       if ('error' in res && res.error) {  
         const errorData = res.error as FetchBaseQueryErrorWithData;
@@ -65,7 +65,7 @@ const CreatePassword = () => {
         const successData = res.data as ApiResponse;
         toast.success(successData.message);
         Cookies.remove("answers");
-        router.push("/");
+        router.push("/personal");
       }
   
     } catch (error) {

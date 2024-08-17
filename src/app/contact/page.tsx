@@ -107,7 +107,7 @@ const page = () => {
           Contact Us or reach us by:
         </h3>
         <p className=" text-black pb-4">
-           <span className="font-medium">Phone:</span>1300 WEDLOCK
+           <span className="font-medium">Phone: </span>1300 WEDLOCK (1300 9335625)
         </p>
         <p className=" text-black pb-4">
           <span className="font-medium">Email:</span>  <a href="mailto:info@wedlock.au" className=" underline">info@wedlock.au</a>

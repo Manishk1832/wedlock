@@ -38,7 +38,7 @@ function Hero() {
         <div className="  2xl:px-20   xl:w-[100%] flex justify-center items-center">
           <div className=" text-center  xl:w-[100%]  hero_content  " >
             <h1
-              className="text-[123px] text-[#FFFFFF]"
+              className="text-[120px] text-[#FFFFFF]"
               style={{ fontFamily: 'Proxima-Nova-bold,', lineHeight: '149.81px', letterSpacing: '2%', fontWeight:'700' }}
             >
               Married at First Sight
@@ -47,7 +47,7 @@ function Hero() {
               className="  text-[#FFFFFF] text-[28px] xl:pt-8"
               style={{ fontFamily: 'Proxima-Nova-Regular,', lineHeight: '42px', letterSpacing: '2%', fontWeight:'400' }}
             >
-              Australia’s premier AI-powered e-matchmaking service specializes in fostering connections among individuals from diverse cultural, national, and community backgrounds.
+              AI-powered e-matchmaking service. A smarter way to foster connections.
             </p>
 
             <Link

@@ -62,6 +62,7 @@ const Footer = () => {
           <div>
             <ul style={{ fontFamily: 'Proxima-Nova-Regular, sans-serif' }}>
               <li><Link href="/mission">Mission</Link></li>
+              <li><Link href="/services">Services</Link></li>
               <li><Link href="/career">Career</Link></li>
               <li><Link href="/success-stories">Success Stories</Link></li>
             </ul>
@@ -73,15 +74,15 @@ const Footer = () => {
               <li><Link href="/trust-and-safety">Trust & Safety</Link></li>
             </ul>
           </div>
-          <div>
+          <div className=" w-full  lg:w-1/5">
             <ul style={{ fontFamily: 'Proxima-Nova-Regular, sans-serif' }}>
-              <li><Link href="/community-guidelines/">Community</Link></li>
-              <li><Link href="/contact/">Contact</Link></li>
-              <li><Link href="/terms-conditions/">Terms</Link></li>
-              <li><Link href="/about/">About</Link></li>
-              <li><Link href="/privacy-policy/">Privacy</Link></li>
-              <li><Link href="/cookies-policy/">Cookies</Link></li>
-              <li><Link href="/plan/">Plan</Link></li>
+              <li><Link href="/community-guidelines/">Community guidelines</Link></li>
+              <li><Link href="/contact/">Contact us</Link></li>
+              <li><Link href="/terms-conditions/">Terms conditions</Link></li>
+              <li><Link href="/about/">About us</Link></li>
+              <li><Link href="/privacy-policy/">Privacy Policy</Link></li>
+              <li><Link href="/cookies-policy/">Cookies Policy</Link></li>
+              <li><Link href="/plan/">Subscription Tiers </Link></li>
             </ul>
           </div>
           <div>
@@ -109,12 +110,12 @@ const Footer = () => {
               <i>Married at First Sight</i>
             </h1>
             <p className="text-xs md:text-sm pb-4 text-balance md:pb-0">
-            Australia’s premier AI-powered e-matchmaking service specializes in fostering connections among individuals from diverse cultural, national, and community backgrounds.
+            This website is strictly for matrimonial purposes only and not a dating website.
             </p>
           </div>
-          <div className="flex flex-col items-center md:items-start text-center md:text-left">
+          <div className="flex flex-col items-center md:items-end text-center md:text-left">
             <h1 className="text-xs sm:text-sm md:text-base" style={{ letterSpacing: '3%', lineHeight: '22px', fontFamily: 'Proxima-Nova-Regular, sans-serif' }}>
-              © 2024 Wedlock Global Service (Australia) Pty Ltd. All rights reserved.
+              © 2024 Wedlock Global Services (Australia) Pty Ltd. All rights reserved.
             </h1>
             <h2 className="text-xs sm:text-sm md:text-base" style={{ letterSpacing: '3%', lineHeight: '22px', fontFamily: 'Proxima-Nova-Regular, sans-serif' }}>
               ABN: 36 679 422 738

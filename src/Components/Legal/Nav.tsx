@@ -9,6 +9,7 @@ const sections = [
   { title: "TERMS", links: "/terms-conditions/" },
   { title: "PRIVACY", links: "/privacy-policy/" },
   { title: "COOKIES POLICY", links: "/cookies-policy/" },
+  { title:"Services",links:"/services/"},
 ];
 
 interface activeSectionProps {

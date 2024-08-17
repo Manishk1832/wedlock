@@ -20,7 +20,7 @@ const Navbar: React.FC = () => {
 
   const isBlueBgRoute = pathname === "/mission/" || pathname === "/advice/" || pathname === "/help" || pathname === "/legal/" || pathname === "/security/" || pathname == "/faqs/" ||     pathname === "/contact/"|| pathname ==="/cookies-policy/" || pathname === "/community-guidelines/"||
   pathname === "/privacy-policy/"||pathname === "/terms-conditions/"||pathname ==="/about/"||pathname === "/plan/"
-  const  hiddenRoutes = ["/verification/", "/register/", "/questions/", "/login/", "/forgotpassword/", "/createpassword/","/ChangePassword/" ,"/otherdetails/","/personal/","/test/"];
+  const  hiddenRoutes = ["/verification/", "/register/", "/questions/", "/login/", "/forgotpassword/", "/createpassword/","/ChangePassword/" ,"/otherdetails/","/personal/","/test/","/qualification/"];
   const isHiddenRoute = hiddenRoutes.includes(pathname);
 
   if (isHiddenRoute) {

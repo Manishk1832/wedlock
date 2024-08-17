@@ -49,10 +49,10 @@ const Footer = () => {
                     fontFamily: "Proxima-Nova-ExtraBold-Italic, sans-serif",
                   }}
                 >
-                  Everything you can imagine is real
+                  Married at First Sight
                 </h4>
                 <p className="text-sm">
-                Leading matchmaking service provider                
+                This website is strictly for matrimonial purposes only and not a dating website.                
                 </p>
               </div>
               <div className="text-center md:text-right">
