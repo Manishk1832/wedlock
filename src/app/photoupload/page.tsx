@@ -1,28 +1,61 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
+import { toast } from "sonner";
+import { useProfileImageUploadMutation } from "@/Redux/Api/form.api";
+import { useRouter } from "next/navigation";
 import "../../app/font.css";
 
 const Page = () => {
+  const router = useRouter();
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
+  const [uploadProfileImage, { isLoading }] = useProfileImageUploadMutation();
+
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const files = e.target.files;
     if (files) {
       const fileList = Array.from(files);
-      setUploadedImages((prevImages) =>
-        [...prevImages, ...fileList].slice(0, 3),
-      );
+      const validImages = fileList.filter((file) => file.size <= 15 * 1024 * 1024); // 15MB limit
+
+      if (validImages.length > 0) {
+        setUploadedImages((prevImages) =>
+          [...prevImages, ...validImages].slice(0, 3)
+        );
+      } else {
+        toast.error("Please upload images smaller than 15MB.");
+      }
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (uploadedImages.length > 0) {
+      const formData = new FormData();
+      uploadedImages.forEach((image) => formData.append("images", image));
+
+      try {
+        const response = await uploadProfileImage(formData).unwrap();
+        if (response.success) {
+          toast.success("Images uploaded successfully!");
+          router.push("/otherdetails");
+        } else {
+          toast.error("Failed to upload images. Please try again.");
+        }
+      } catch (error) {
+        toast.error("An error occurred during the upload.");
+      }
+    } else {
+      toast.error("Please upload at least one image before proceeding.");
     }
   };
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#007EAF] px-5 md:px-20 lg:px-40 3xl:px-60">
       <Image
-        src="/logoau.png"
-        alt="logo"
-        width={150}
-        height={150}
-        className="mb-10 mt-10 h-auto w-40 md:w-40 lg:w-60 3xl:w-80"
+        src="/logowhite.png"
+        width={400}
+        height={500}
+        alt="Wedlock Logo"
+        className="w-72 h-24 mx-auto mb-2"
       />
 
       <div className="mt-5 w-full flex-grow xl:mt-20 2xl:mt-10">
@@ -58,7 +91,7 @@ const Page = () => {
 
           <div className="mt-6 flex flex-col items-center justify-between px-4">
             <span className="text-sm text-[#F9F5FFE5] md:text-lg">
-              Upload up to 3 photos (size 15mb)
+              Upload up to 3 photos (max size 15MB)
             </span>
 
             <label
@@ -77,8 +110,7 @@ const Page = () => {
                   Click to upload or drag and drop
                 </p>
                 <p className="text-[14px] leading-5 text-white">
-                  {" "}
-                  PNG, JPG, GIF, BMP, TIFF (max size 15mb)
+                  PNG, JPG, GIF, BMP, TIFF (max size 15MB)
                 </p>
               </div>
               <input
@@ -95,8 +127,12 @@ const Page = () => {
         </div>
       </div>
       <div className="mb-5 flex w-full justify-end py-8 pb-4 xl:px-10 2xl:mb-4 2xl:px-0 3xl:mb-20 3xl:px-0">
-        <button className="w-full rounded-[0.5rem] bg-[#F9F5FFE5] px-4 py-2 text-[#007EAF] md:w-20 2xl:w-32">
-          Upload
+        <button
+          onClick={handleSubmit}
+          className="w-full rounded-[0.5rem] bg-[#F9F5FFE5] px-4 py-2 text-[#007EAF] md:w-20 2xl:w-32"
+          disabled={isLoading}
+        >
+          {isLoading ? "Uploading..." : "Upload"}
         </button>
       </div>
     </div>

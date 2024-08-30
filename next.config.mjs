@@ -1,6 +1,5 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    output: 'export',
     eslint: {
         ignoreDuringBuilds: true,
     },
@@ -8,7 +7,11 @@ const nextConfig = {
     images: {
         loader: 'custom',
         loaderFile: './loader.js',
+        domains: ["res.cloudinary.com"],
+
+
       },
+      
 };
 
 export default nextConfig;

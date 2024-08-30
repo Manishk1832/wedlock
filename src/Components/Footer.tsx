@@ -34,11 +34,12 @@ const Footer = () => {
     "/qualification/",
     "/successfully/",
     "/photoupload/",
-    "/test/"
+    "/forgotpassword/",
+    "/login/",
+    "/verify-otp/"
   ];
   const isHiddenRoute = hiddenRoutes.includes(pathname);
 
-  // If the footer should be hidden, return null
   if (isHiddenRoute) {
     return null;
   }

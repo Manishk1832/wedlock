@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Modal, Form, Tag, Input, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { createStyles, useTheme } from "antd-style";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+import { useUpdateLocationDetailsMutation } from "../../Redux/Api/profile.api";
+import { toast } from "sonner";
 
 const useStyle = createStyles(({ token }) => ({
   "my-modal-body": {

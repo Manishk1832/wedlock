@@ -18,9 +18,9 @@ const Navbar: React.FC = () => {
   const closeLogin = () => setLoginOpen(false);
   const toggleSidebar = () => setSidebarOpen(!isSidebarOpen);
 
-  const isBlueBgRoute = pathname === "/mission/" || pathname === "/advice/" || pathname === "/help" || pathname === "/legal/" || pathname === "/security/" || pathname == "/faqs/" ||     pathname === "/contact/"|| pathname ==="/cookies-policy/" || pathname === "/community-guidelines/"||
+  const isBlueBgRoute = pathname === "/mission/" || pathname === "/advice/" || pathname === "/help/" || pathname === "/legal/" || pathname === "/security/" || pathname == "/faqs/" ||     pathname === "/contact/"|| pathname ==="/cookies-policy/" || pathname === "/community-guidelines/"||
   pathname === "/privacy-policy/"||pathname === "/terms-conditions/"||pathname ==="/about/"||pathname === "/plan/"
-  const  hiddenRoutes = ["/verification/", "/register/", "/questions/", "/login/", "/forgotpassword/", "/createpassword/","/ChangePassword/" ,"/otherdetails/","/personal/","/test/","/qualification/"];
+  const  hiddenRoutes = ["/verification/", "/register/", "/questions/", "/login/", "/forgotpassword/", "/createpassword/","/ChangePassword/" ,"/otherdetails/","/personal/","/test/","/qualification/","/location/","/photoupload/","/user/","/verify-otp/","/changepassword/"];
   const isHiddenRoute = hiddenRoutes.includes(pathname);
 
   if (isHiddenRoute) {

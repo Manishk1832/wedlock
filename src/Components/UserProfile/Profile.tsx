@@ -4,7 +4,7 @@ import Footer from "../header-footer-profile/Footer";
 import Image from "next/image";
 import { Tabs } from "antd";
 import type { TabsProps } from "antd";
-import Match from "../Match";
+import UserDetails from "../UserDetails";
 import Discover from "../Discover";
 import Plan from "../Plan";
 import Notification from "../Notification";
@@ -18,7 +18,7 @@ const Profile: React.FC = () => {
       label: `Matches`,
       children: (
         <div>
-          <Match />
+          <UserDetails />
         </div>
       ),
     },
@@ -83,7 +83,6 @@ const Profile: React.FC = () => {
           </div>
         </div>
       </div>
-      <div>{/* <Match/> */}</div>
       <Footer />
     </div>
   );

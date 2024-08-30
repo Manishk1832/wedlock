@@ -7,7 +7,7 @@ export const userApi = createApi({
     baseUrl: 'http://localhost:8000/api/v1/user/',
     credentials: 'include',  
     prepareHeaders: (headers, { getState }) => {
-      const accessToken = (getState() as RootState).user.accessToken;
+      const accessToken = (getState() as RootState).userReducer.accessToken;
       if (accessToken) {
         headers.set('Authorization', accessToken);
       }
@@ -41,10 +41,57 @@ export const userApi = createApi({
         method:'POST',
         body: data
       })
-    })
+    }),
+
+     login: builder.mutation({
+      query: (user) => ({
+        url: 'login',
+        method: 'POST',
+        body: user, 
+      }),
+    }),
+
+    forgotpassword:builder.mutation({
+      query:(email)=>({
+        url: 'forgot-password',
+        method: 'POST',
+        body: email
+      })
+    }),
+
+    verify:builder.mutation({
+      query:(data) => ({
+        url: 'verify-otp',
+        method: 'POST',
+        body: data
+
+      })
+    }),
+
+    resetpassword:builder.mutation({
+      query:(data) =>({
+        url: 'reset-password',
+        method: 'POST',
+        body: data
+
+      })
+
+    }),
+
+
+
+    logout: builder.mutation({
+      query: () => ({
+        url: 'logout',
+        method: 'POST',
+      }),
+    }),
+
+
+
 
   }),
 
 });
 
-export const { useRegisterUserMutation,useVerifyOtpMutation,useSetPasswordMutation} = userApi;
+export const { useRegisterUserMutation,useVerifyOtpMutation,useSetPasswordMutation,useLoginMutation,useLogoutMutation,useForgotpasswordMutation,useVerifyMutation,useResetpasswordMutation} = userApi;

@@ -3,39 +3,93 @@ import Image from "next/image";
 import React from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import {usePersonalDetialsMutation} from "../../Redux/Api/form.api";
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import Router from "next/router";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import "../../app/font.css";
+import { toast } from 'sonner'
+import { RootState } from "@/Redux/store";
+import { useSelector } from 'react-redux';
+import { LoadingOutlined } from '@ant-design/icons';
+
+
+
 
 const personalDetailsSchema = z.object({
   firstName: z.string().min(1, { message: "First name is required" }),
   lastName: z.string().min(1, { message: "Last name is required" }),
-  displayName: z.string().optional(),
+  displayName: z.string().min(1, { message: "Display name is required" }),
+  maritalStatus: z.enum(["Yes", "No"], { message: "Marital status is required" }), 
+  numberOfChildren: z.enum(["0", "1", "2", "3", "4", "5"], { message: "Number of children is required" }),
   contactNumber: z
     .string()
     .min(1, { message: "Contact number is required" })
     .length(10, { message: "Contact number must be 10 digits" })
     .regex(/^\d+$/, { message: "Contact number must contain only digits" }),
-  maritalStatus: z.enum(["Yes", "No"], {
-    errorMap: () => ({ message: "Marital status is required" }),
-  }),
-  numberOfChildren: z.enum(["0", "1", "2", "3", "4", "5"]).optional(),
-  description: z.string().min(1, { message: "Description is required" }),
-});
+    aboutYourSelf: z.string().min(1, { message: "Description is required" }),
 
-type PersonalDetailsFormData = z.infer<typeof personalDetailsSchema>;
+   
+  });
 
-const PersonalDetailsForm = () => {
+
+ 
+
+
+const PersonalDetailsForm  = () => {
+
+  const [personalDetials, { isLoading }] = usePersonalDetialsMutation();
+
+  const accessToken = useSelector((state:RootState) => state.userReducer.accessToken);
+
+
+
+
+  const Router = useRouter();
+  
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<PersonalDetailsFormData>({
+  } = useForm({
     resolver: zodResolver(personalDetailsSchema),
   });
 
-  const onSubmit = (data: PersonalDetailsFormData) => {
-    console.log("Form data:", data);
+
+  
+  type ApiResponse = {
+    success: boolean;
+    message: string;
   };
+  type FetchBaseQueryErrorWithData = FetchBaseQueryError & {
+    data: ApiResponse;
+  };
+
+  const onSubmit = async (data: any) => {
+    try {
+      const res = await personalDetials(data);
+  
+      if (res?.error) {
+        const errorData = res.error as FetchBaseQueryErrorWithData;
+  
+        if (errorData.data?.success === false) {
+          toast.error(errorData.data.message);
+          return;
+        }
+      }
+  
+      if (res?.data) {
+        const successData = res.data as ApiResponse;
+        toast.success(successData.message);
+        Router.push("/qualification");
+      }
+      
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    }
+  };
+  
 
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-[#007EAF] px-5 md:px-20 lg:px-40 3xl:px-60">
@@ -76,7 +130,7 @@ const PersonalDetailsForm = () => {
                 />
                 {errors.firstName && (
                   <p className="text-orange-200 text-sm mt-1">
-                    {errors.firstName.message}
+                    {errors?.firstName?.message?.toString()}
                   </p>
                 )}
               </div>
@@ -89,7 +143,7 @@ const PersonalDetailsForm = () => {
                 />
                 {errors.lastName && (
                   <p className="text-orange-200 text-sm mt-1">
-                    {errors.lastName.message}
+                    {errors?.lastName?.message?.toString()}
                   </p>
                 )}
               </div>
@@ -105,6 +159,11 @@ const PersonalDetailsForm = () => {
               className="w-full rounded border border-gray-300 bg-[#F9F5FFE5] p-2"
             />
           </div>
+          {errors.displayName && (
+            <p className="text-orange-200 text-sm mt-1">
+              {errors?.displayName?.message?.toString()}
+            </p>
+          )}
 
           <div className="col-span-2 mt-2">
             <label className="block text-white">Contact number*</label>
@@ -116,7 +175,7 @@ const PersonalDetailsForm = () => {
             />
             {errors.contactNumber && (
               <p className="text-orange-200 text-sm mt-1">
-                {errors.contactNumber.message}
+                {errors?.contactNumber?.message?.toString()}
               </p>
             )}
           </div>
@@ -133,7 +192,7 @@ const PersonalDetailsForm = () => {
               </select>
               {errors.maritalStatus && (
                 <p className="text-orange-200 text-sm mt-1">
-                  {errors.maritalStatus.message}
+                  {errors?.maritalStatus?.message?.toString()}
                 </p>
               )}
             </div>
@@ -151,6 +210,11 @@ const PersonalDetailsForm = () => {
                 <option value="4">4</option>
                 <option value="5">5</option>
               </select>
+              {errors.numberOfChildren && (
+                <p className="text-orange-200 text-sm mt-1">
+                  {errors?.numberOfChildren?.message?.toString()}
+                </p>
+              )}
             </div>
           </div>
 
@@ -159,30 +223,31 @@ const PersonalDetailsForm = () => {
               Description about yourself*
             </label>
             <textarea
-              {...register("description")}
-              placeholder="Description"
+             {...register("aboutYourSelf")}             
+               placeholder="Description"
               rows={4}
               className="w-full resize-none rounded border border-gray-300 bg-[#F9F5FFE5] p-2"
             ></textarea>
-            {errors.description && (
+            {errors.aboutYourSelf && (
               <p className="text-orange-200 text-sm mt-1">
-                {errors.description.message}
+                {errors?.aboutYourSelf?.message?.toString()}
               </p>
             )}
           </div>
 
-          <div className="col-span-2 mt-4 flex justify-end">
+          <div className="col-span-2 mt-2 mb-4 flex justify-end">
             <button
               type="submit"
               className="w-full md:w-32 rounded bg-[#F9F5FFE5] px-4 py-2 text-[#007EAF]"
             >
-              Save
-            </button>
+                {isLoading ? <LoadingOutlined className="text-[#007EAF] animate-spin" /> : 'Save'}
+                </button>
           </div>
         </form>
       </div>
     </div>
   );
+  
 };
 
 export default PersonalDetailsForm;

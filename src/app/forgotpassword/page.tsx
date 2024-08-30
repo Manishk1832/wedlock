@@ -4,11 +4,77 @@ import React, { useState } from "react";
 import Input from "../../Components/Input";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import {useForgotpasswordMutation} from "../../Redux/Api/user.api";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { toast } from 'sonner'
+import { LoadingOutlined } from '@ant-design/icons';
+import { setActivationToken } from "../../Redux/Reducers/user.reducer";
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { z } from 'zod';
+
+
+
+
+const schema = z.object({
+  email: z.string().email({ message: "Invalid email address" }),
+});
+
+type FormData = z.infer<typeof schema>;
 
 const ForgotPassword = () => {
   const router = useRouter();
 
-  const [username, setUsername] = useState("");
+
+  const dispatch = useDispatch();
+
+  const [forgotpassword,{isLoading}] = useForgotpasswordMutation();
+
+
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<FormData>({
+    defaultValues: {
+      email: "",
+    },
+    resolver: zodResolver(schema),
+  });
+
+  
+  type ApiResponse = {
+    success: boolean;
+    message: string;
+    activationToken?: string;
+  };
+
+  type FetchBaseQueryErrorWithData = FetchBaseQueryError & {
+    data: ApiResponse;
+  };
+
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    try {
+      const res = await forgotpassword({ email: data.email });
+
+      console.log(data)
+  
+      if ('error' in res && res.error) {
+        const errorData = res.error as FetchBaseQueryErrorWithData;
+  
+        if (errorData.data?.success === false) {
+          toast.error(errorData.data.message); 
+          return;
+        }
+      }
+      const successData = res.data as ApiResponse;
+      toast.success(successData.message);
+      dispatch(setActivationToken(successData.activationToken!));
+      router.push("/verify-otp/");
+    } catch (error) {
+      toast.error("An error occurred");
+    }
+  };
+
+
   return (
     <div className="min-w-screen min-h-screen flex flex-col items-center justify-center  bg-[#007EAF] ">
       <div className="flex items-center justify-center mb-14 w-[268px] h-[90px]">
@@ -31,21 +97,24 @@ const ForgotPassword = () => {
       </div>
 
       <div className="w-full max-w-md px-2  py-4">
-        <form action="" className="space-y-6 rounded-[8px]" onSubmit={(e) => e.preventDefault()}>
+        <form action="" className="space-y-6 rounded-[8px]" onSubmit={handleSubmit(onSubmit)}>
+
           <Input
             label="Email"
-            value={username}
+            type="email"
+            {...register("email")}
             placeholder="Enter your email"
-            onChange={(e) => setUsername(e.target.value)}
           />
+          {errors.email && <p className="text-orange-200">{errors.email.message}</p>}
+
           <button
-            onClick={() => window.location.href = "/verification"}
-            type="submit"
+             type="submit"
             className="w-full py-2 px-4 text-[#007EAF] rounded bg-[#ffffff]"
+            disabled={isSubmitting}
             
           >
-            Send email
-          </button>
+            {isLoading ? <LoadingOutlined className="text-[#007EAF] animate-spin" /> : 'Send Email'}
+            </button>
         </form>
       </div>
     </div>

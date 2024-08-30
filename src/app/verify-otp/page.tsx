@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Input from "../../Components/Input";
 import Image from "next/image";
 import Cookies from "js-cookie";
-import {useVerifyOtpMutation} from "../../Redux/Api/user.api";
+import {useVerifyMutation} from "../../Redux/Api/user.api";
 import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
@@ -27,9 +27,9 @@ const verificationSchema = z.object({
 
 type VerificationInputs = z.infer<typeof verificationSchema>;
 
-const Verification = () => {
+const verifyOtp = () => {
   const router = useRouter();
-  const [ verifyOtp, {isLoading}] = useVerifyOtpMutation();
+  const [ verify, {isLoading}] = useVerifyMutation();
   
 
   const { register, handleSubmit, formState: { errors } } = useForm<VerificationInputs>({
@@ -52,7 +52,7 @@ const Verification = () => {
     const activationCode = data.code0 + data.code1 + data.code2 + data.code3;
    const activationToken = Cookies.get('activationToken');
 
-   const res = await verifyOtp({activationCode,activationToken});
+   const res = await verify({activationCode,activationToken});
 
    if ('error' in res && res.error) {
     const errorData = res.error as FetchBaseQueryErrorWithData;
@@ -65,7 +65,7 @@ const Verification = () => {
   const successData = res.data as ApiResponse;
   toast.success(successData.message);
    Cookies.remove("activationToken")
-    router.push("/createpassword");
+    router.push("/changepassword/");
   };
 
   return (
@@ -91,8 +91,9 @@ const Verification = () => {
               {[0, 1, 2, 3].map((index) => (
                 <div key={index}>
                   <Input
-                    label=""
-                    {...register(fieldNames[index] as typeof fieldNames[number])}                    className={`w-16 h-16 text-center rounded-xl text-3xl text-[#007EAF] placeholder-[#007EAF] outline-gray-400 ${errors[fieldNames[index] as typeof fieldNames[number]] ? 'border-red-500' : ''}`}
+                    label= ""
+                    {...register(fieldNames[index] as typeof fieldNames[number])}               
+                         className={`w-16 h-16 text-center rounded-xl text-3xl text-[#007EAF] placeholder-[#007EAF] outline-gray-400 ${errors[fieldNames[index] as typeof fieldNames[number]] ? 'border-red-500' : ''}`}
                     type="text"
                     inputMode="numeric"
                     maxLength={1}
@@ -112,6 +113,7 @@ const Verification = () => {
             </div>
             <button className="bg-white text-[#007EAF] w-full h-12 rounded-xl mt-6">
             {isLoading ? <LoadingOutlined className="text-[#007EAF] animate-spin" /> : 'Verify'}
+
             </button>
           </form>
         </div>
@@ -120,5 +122,5 @@ const Verification = () => {
   );
 };
 
-export default Verification;
+export default verifyOtp;
  

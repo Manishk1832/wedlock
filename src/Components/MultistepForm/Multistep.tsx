@@ -18,6 +18,12 @@ import Question7 from "./Question7";
 import Question11 from "./Question11";
 
 const Multistep = () => {
+  type SelectedOption = {
+    questionId: number;
+    answerValue: string | string[];
+  };
+
+
   const [selectedOptions, setSelectedOptions] = useState<
     { questionId: number; answerValue: string | string[] }[]
   >([]);
@@ -40,6 +46,8 @@ const Multistep = () => {
     "Question 10/11",
     "Question 11/11",
   ];
+
+  
 
   const PageDisplay = () => {
     switch (page) {

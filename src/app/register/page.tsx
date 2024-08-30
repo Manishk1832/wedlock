@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from "next/navigation";
+import {LoadingOutlined} from '@ant-design/icons';
 import { toast } from 'sonner'
 
 
@@ -101,7 +102,7 @@ const Registration = () => {
             className="w-full py-2 px-4 text-[#007EAF] rounded bg-[#ffffff]"
             disabled={isSubmitting}
           >
-            Create an account
+            {isLoading ? <LoadingOutlined className="text-[#007EAF] animate-spin" /> : '         Create an account'}
           </button>
         </form>
       </div>

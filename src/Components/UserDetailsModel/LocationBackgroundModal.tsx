@@ -1,6 +1,10 @@
 import React from "react";
 import { Modal, Select, Form, Input, Col, Row } from "antd";
 import { createStyles, useTheme } from "antd-style";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+import { useUpdateLocationDetailsMutation } from "../../Redux/Api/profile.api";
+import { toast } from "sonner";
+
 
 const useStyle = createStyles(({ token }) => ({
   "my-modal-body": {
@@ -36,7 +40,20 @@ const LocationBackgroundModal: React.FC<LocationBagroundModelProps> = ({
   const { styles } = useStyle();
   const token = useTheme();
 
+  type ApiResponse = {
+    success: boolean;
+    message: string;
+  };
+  type FetchBaseQueryErrorWithData = FetchBaseQueryError & {
+    data: ApiResponse;
+  };
+  const [form] = Form.useForm();
+
+  const [updateLocationDetails, { isLoading }] = useUpdateLocationDetailsMutation();
+
+
   const { Option } = Select;
+  
   const ComplexionOptions = [
     { value: "White", label: "White" },
     { value: "Black", label: "Black" },
@@ -53,7 +70,28 @@ const LocationBackgroundModal: React.FC<LocationBagroundModelProps> = ({
     title: styles["my-modal-title"],
   };
 
-  const [form] = Form.useForm<{ name: string; age: number }>();
+
+   const handleFormSubmit = async (values: any) => {
+    try {
+      const res = await updateLocationDetails(values);
+
+      if ("error" in res && res.error) {
+        const errorData = res.error as FetchBaseQueryErrorWithData;
+
+        if (errorData.data?.success === false) {
+          toast.error(errorData.data.message);
+          return;
+        }
+      }
+      const successData = res.data as ApiResponse;
+      toast.success(successData.message);
+      onClose();
+
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    }
+  };
+
 
   const modalStyles = {
     header: {
@@ -72,24 +110,27 @@ const LocationBackgroundModal: React.FC<LocationBagroundModelProps> = ({
       <Modal
         open={isVisible}
         onCancel={onClose}
+        onOk={()=>form.submit()}
         wrapClassName="my-modal-content"
         classNames={classNames}
         styles={modalStyles}
         title={
-          <span className={styles["my-modal-title"]}>Personal Background</span>
+          <span className={styles["my-modal-title"]}>Location Background</span>
         }
         centered
+        confirmLoading={isLoading}
+
       >
-        <Form form={form} layout="vertical" autoComplete="off">
+        <Form form={form} layout="vertical" autoComplete="off" onFinish={handleFormSubmit}>
           <Row gutter={16}>
             <Col span={24}>
-              <Form.Item name="currentlocation" label="Current Location">
+              <Form.Item name="currentLocation" label="Current Location">
                 <Input placeholder="Enter Current Location" />
               </Form.Item>
             </Col>
 
             <Col span={24}>
-              <Form.Item name="cityofresidence" label="City of Residence">
+              <Form.Item name="cityOfResidence" label="City of Residence">
                 <Input placeholder="Enter City of Residence" />
               </Form.Item>
             </Col>
@@ -106,19 +147,19 @@ const LocationBackgroundModal: React.FC<LocationBagroundModelProps> = ({
             </Col>
 
             <Col span={24}>
-              <Form.Item name="citizenship" label="Citizenship">
+              <Form.Item name="citizenShip" label="Citizenship">
                 <Input placeholder="Enter Citizenship" />
               </Form.Item>
             </Col>
 
             <Col span={24}>
               <Form.Item
-                name="Residency Visa Status"
+                name="residencyVisaStatus"
                 label="Residency Visa Status"
               >
                 <Select placeholder="Select Residency Visa Status">
                   <Option value="yes">Yes</Option>
-                  <Option value="">No</Option>
+                  <Option value="No">No</Option>
                 </Select>
               </Form.Item>
             </Col>

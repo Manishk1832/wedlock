@@ -70,7 +70,7 @@ const LifestyleModel: React.FC<LifestyleModelProps> = ({
         classNames={classNames}
         styles={modalStyles}
         title={
-          <span className={styles["my-modal-title"]}>Personal Background</span>
+          <span className={styles["my-modal-title"]}>Personal Details</span>
         }
         centered
       >

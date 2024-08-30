@@ -2,6 +2,10 @@ import React, { useState } from "react";
 import { Modal, ConfigProvider, theme } from "antd";
 import { createStyles, useTheme } from "antd-style";
 import { Form, Input, InputNumber, Typography } from "antd";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+import { useUpdateReligiousBackgroundMutation } from "../../Redux/Api/profile.api";
+import { toast } from "sonner";
+
 
 const useStyle = createStyles(({ token }) => ({
   "my-modal-body": {
@@ -38,6 +42,43 @@ const ReligiousModel: React.FC<ReligiousModalProps> = ({
   const { styles } = useStyle();
   const token = useTheme();
 
+
+  
+  type ApiResponse = {
+    success: boolean;
+    message: string;
+  };
+  type FetchBaseQueryErrorWithData = FetchBaseQueryError & {
+    data: ApiResponse;
+  };
+
+  const [form] = Form.useForm();
+
+
+  const [updateReligiousBackground, { isLoading }] = useUpdateReligiousBackgroundMutation();
+
+  const handleFormSubmit = async (values: any) => {
+    try {
+      const res = await updateReligiousBackground(values);
+      console.log(res);
+
+      if ("error" in res && res.error) {
+        const errorData = res.error as FetchBaseQueryErrorWithData;
+
+        if (errorData.data?.success === false) {
+          toast.error(errorData.data.message);
+          return;
+        }
+      }
+      const successData = res.data as ApiResponse;
+      toast.success(successData.message);
+      onClose();
+
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    }
+  };
+
   const classNames = {
     mask: styles["my-modal-mask"],
     header: styles["my-modal-header"],
@@ -45,8 +86,6 @@ const ReligiousModel: React.FC<ReligiousModalProps> = ({
     content: styles["my-modal-content"],
     title: styles["my-modal-title"],
   };
-  const [form] = Form.useForm<{ name: string; age: number }>();
-  const nameValue = Form.useWatch("name", form);
 
   const modalStyles = {
     header: {
@@ -67,6 +106,7 @@ const ReligiousModel: React.FC<ReligiousModalProps> = ({
       <Modal
         open={isVisible}
         onCancel={onClose}
+        onOk={() => form.submit()}        
         wrapClassName="my-modal-content"
         classNames={classNames}
         styles={modalStyles}
@@ -74,20 +114,40 @@ const ReligiousModel: React.FC<ReligiousModalProps> = ({
           <span className={styles["my-modal-title"]}>Religious Background</span>
         }
         centered
+        confirmLoading={isLoading}
       >
-        <Form form={form} layout="vertical" autoComplete="off">
-          <Form.Item name="name" label="Religion">
+        <Form form={form} layout="vertical" autoComplete="off" onFinish={handleFormSubmit}>
+          <Form.Item name="religion" label="Religion" rules={[{ required: true , message: "Please enter your religion"}]}  >
             <Input placeholder="Enter Religion" />
           </Form.Item>
-          <Form.Item name="name" label="Community">
-            <Input placeholder="Enter Community" />
+
+          <Form.Item name="caste" label="Caste" rules={[{ required: true , message: "Please enter your Caste"}]}  >
+            <Input placeholder="Enter Caste" />
           </Form.Item>
-          <Form.Item name="name" label="Sub Community">
+
+          <Form.Item name="subCommunity" label="Sub Community"  rules={[{ required: true , message: "Please enter your sub community"}]}>
             <Input placeholder="Enter Sub Community" />
           </Form.Item>
-          <Form.Item name="name" label="Gothra/Gothram">
+          <Form.Item name="community" label="Community" rules={[{ required: true , message: "Please enter your community"}]}>
+            <Input placeholder="Enter Community" />
+          </Form.Item>
+          <Form.Item name="gothra" label="Gothra/Gothram" rules={[{ required: true , message: "Please enter your Gothra"}]}>
             <Input placeholder="Enter Gothra" />
           </Form.Item>
+          <Form.Item name="dateOfBirth" label="Date of Birth" rules={[{ required: true , message: "Please enter your date of birth"}]}>
+            <Input placeholder="Enter Date of Birth" />
+          </Form.Item>
+          <Form.Item name="timeOfBirth" label="Time of Birth" rules={[{ required: true , message: "Please enter your time of birth"}]}>
+            <Input placeholder="Enter Time of Birth" />
+          </Form.Item>
+          <Form.Item name="placeOfBirth" label="Place of Birth" rules={[{ required: true , message: "Please enter your place of birth"}]}>
+            <Input placeholder="Enter Place of Birth" />
+          </Form.Item>
+
+          <Form.Item name="motherTongue" label="Mother Tongue" rules={[{ required: true , message: "Please enter your mother tongue"}]}>
+            <Input placeholder="Enter Place of Birth" />
+          </Form.Item>
+          
         </Form>
       </Modal>
     </div>

@@ -2,41 +2,38 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
-const accessToken = Cookies.get('accessToken') || null;
-const refreshToken = Cookies.get('refreshToken') || null;
+const accessToken = Cookies.get('access_token') || null;
+const refreshToken = Cookies.get('refresh_token') || null;
+console.log(accessToken,"accessToken from cookie");
+
 const activationToken = Cookies.get('activationToken') || null;
 const token = Cookies.get('token') || null;
 
 
 
 const initialState = {
-    user: {
-        id: null,
-        email: '',
-        userId: '',
-        usertype: '',
-        isVerified: false,
-        isPersonalFormFilled: false,
-        isQualificationFormFilled: false,
-        isLocationFormFilled: false,
-        isOtherFormFilled: false,
-        isImageFormFilled: false,
-        role: '',
-        createdAt: '',
-        updatedAt: ''
-    },
-    accessToken: accessToken,
+    user:null,
+    accessToken : accessToken,
     refreshToken: refreshToken,
     activationToken: activationToken,
-    token: token
+    token: token,
+    isPersonalFormFilled : false, 
+    isQualificationFormFilled : false,
+    isOtherFormFilled : false,
+    isLocationFormFilled : false,
+    isImageFormFilled : false,
 
 };
+
+console.log(initialState.user ,"initialState.user");
 
 
 
 const userSlice = createSlice({
-    name: 'user',
+    name: 'userReducer',
     initialState,
+
+    
     reducers: {
         setActivationToken: (state, action) => {
            const activationToken = state.activationToken = action.payload;
@@ -44,11 +41,26 @@ const userSlice = createSlice({
         },
 
         setUser: (state, action) => {
-            state.user = action.payload;
+            const { user, accessToken } = action.payload;
+            state.user = user;
+            state.accessToken = accessToken;
+           const isLocationFormFilled =  state.isLocationFormFilled = user?.isLocationFormFilled ?? false;
+            Cookies.set('isLocationFormFilled', isLocationFormFilled);
+
+          const isPersonalFormFilled =  state.isPersonalFormFilled = user?.isPersonalFormFilled ?? false;
+            Cookies.set('isPersonalFormFilled', isPersonalFormFilled);
+         const isQualificationFormFilled =  state.isQualificationFormFilled = user?.isQualificationFormFilled ?? false;
+        Cookies.set('isQualificationFormFilled', isQualificationFormFilled);
+            
+          const isOtherFormFilled =  state.isOtherFormFilled = user?.isOtherFormFilled ?? false;
+        Cookies.set('isOtherFormFilled', isOtherFormFilled);
+       const isImageFormFilled =     state.isImageFormFilled = user?.isImageFormFilled ?? false;
+        Cookies.set('isImageFormFilled', isImageFormFilled);
+
+
         },
-        setAccessToken: (state, action) => {
-            state.accessToken = action.payload;
-        },
+        
+
         setRefreshToken: (state, action) => {
             state.refreshToken = action.payload;
         },
@@ -61,5 +73,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { setUser, setAccessToken, setRefreshToken, logout, setActivationToken } = userSlice.actions;
-export default userSlice.reducer;
+export const { setUser, setRefreshToken, logout, setActivationToken } = userSlice.actions;
+export default userSlice;

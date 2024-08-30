@@ -70,6 +70,7 @@ const page = () => {
             function like cookies and web beacons. For simplicity, in this
             Policy we also refer to these technologies as “Cookies”.
           </p>
+          
           <h3 className="text-md font-bold">What the types of Cookies?</h3>
           <p className="pb-4">These Cookies are necessary for the App and Websites to function and cannot be switched off in our systems, or our App and Websites will not work properly. They are usually only set in response to actions made by you which amount to a request of services, such as setting your privacy preferences, logging in or filling in forms, making payments, uploading photographs, chatting or to localise your experience, such as when you’ve requested to view Wedlock’s Site in your local language or when you’ve asked Wedlock to ‘remember me’, etc. You can always control the Websites’ strictly necessary Cookies in your browser, as explained below.</p>
 

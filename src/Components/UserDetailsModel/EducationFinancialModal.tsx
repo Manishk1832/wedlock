@@ -1,6 +1,10 @@
 import React from "react";
 import { Modal, Select, Form, Input, Col, Row } from "antd";
 import { createStyles, useTheme } from "antd-style";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query/react";
+import { useUpdateEducationAndFinancialDetailsMutation } from "../../Redux/Api/profile.api";
+import { toast } from "sonner";
+
 
 const useStyle = createStyles(({ token }) => ({
   "my-modal-body": {
@@ -36,14 +40,45 @@ const ReligiouModel: React.FC<EducationalModelProps> = ({
   const { styles } = useStyle();
   const token = useTheme();
 
+  type ApiResponse = {
+    success: boolean;
+    message: string;
+  };
+
+  type FetchBaseQueryErrorWithData = FetchBaseQueryError & {
+    data: ApiResponse;
+  };
+
+  const [form] = Form.useForm();
+
+  const [updateEducationAndFinancialDetails, { isLoading }] = useUpdateEducationAndFinancialDetailsMutation();
+
+
+  const handleFormSubmit = async (values: any) => {
+    try {
+      const res = await updateEducationAndFinancialDetails(values);
+      console.log(res);
+
+      if ("error" in res && res.error) {
+        const errorData = res.error as FetchBaseQueryErrorWithData;
+
+        if (errorData.data?.success === false) {
+          toast.error(errorData.data.message);
+          return;
+        }
+      }
+      const successData = res.data as ApiResponse;
+      toast.success(successData.message);
+      onClose();
+
+    } catch (error) {
+      toast.error("An unexpected error occurred.");
+    }
+  };
+
+
+
   const { Option } = Select;
-  const ComplexionOptions = [
-    { value: "White", label: "White" },
-    { value: "Black", label: "Black" },
-    { value: "Asian", label: "Asian" },
-    { value: "Indian", label: "Indian" },
-    { value: "Others", label: "Others" },
-  ];
 
   const classNames = {
     mask: styles["my-modal-mask"],
@@ -53,7 +88,6 @@ const ReligiouModel: React.FC<EducationalModelProps> = ({
     title: styles["my-modal-title"],
   };
 
-  const [form] = Form.useForm<{ name: string; age: number }>();
 
   const modalStyles = {
     header: {
@@ -72,6 +106,7 @@ const ReligiouModel: React.FC<EducationalModelProps> = ({
       <Modal
         open={isVisible}
         onCancel={onClose}
+        onOk={() => form.submit()}        
         wrapClassName="my-modal-content"
         classNames={classNames}
         styles={modalStyles}
@@ -79,12 +114,13 @@ const ReligiouModel: React.FC<EducationalModelProps> = ({
           <span className={styles["my-modal-title"]}>Personal Background</span>
         }
         centered
+        confirmLoading={isLoading}
       >
-        <Form form={form} layout="vertical" autoComplete="off">
+        <Form form={form} layout="vertical" autoComplete="off" onFinish={handleFormSubmit}>
           <Row gutter={16}>
             <Col span={24}>
-              <Form.Item name="occupation" label="Occupation">
-                <Select placeholder="Select Occupation">
+              <Form.Item name="qualification" label="qualification">
+                <Select placeholder="Select qualification">
                   <Option value="student">Student</Option>
                   <Option value="employed">Employed</Option>
                   <Option value="unemployed">Unemployed</Option>

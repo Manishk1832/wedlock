@@ -3,12 +3,20 @@ import React from "react";
 import Image from "next/image";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import {useQualificationDetailsMutation} from "../../Redux/Api/form.api";
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
+import { RootState } from "@/Redux/store";
+import { useSelector } from 'react-redux';
+import ProtectedRoute from "@/Components/ProtectedRoute";
+import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from 'sonner'
+
 
 // Define the Zod schema for form validation
 const qualificationDetailsSchema = z.object({
   qualification: z.string().min(1, { message: "Qualification is required" }),
-  workingStatus: z.string().min(1, { message: "Working status is required" }),
+  currentWorkingStatus: z.string().min(1, { message: "Working status is required" }),
   occupation: z.string().min(1, { message: "Occupation is required" }),
   income: z.string().min(1, { message: "Income is required" }),
 });
@@ -16,6 +24,13 @@ const qualificationDetailsSchema = z.object({
 type QualificationDetailsFormData = z.infer<typeof qualificationDetailsSchema>;
 
 const QualificationDetailsForm = () => {
+
+  const [ qualificationDetails, { isLoading }] = useQualificationDetailsMutation();
+  const accessToken = useSelector((state:RootState) => state.userReducer.accessToken);
+
+
+  const Router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -24,8 +39,37 @@ const QualificationDetailsForm = () => {
     resolver: zodResolver(qualificationDetailsSchema),
   });
 
-  const onSubmit = (data: QualificationDetailsFormData) => {
-    console.log("Form data:", data);
+    
+  type ApiResponse = {
+    success: boolean;
+    message: string;
+  };
+  type FetchBaseQueryErrorWithData = FetchBaseQueryError & {
+    data: ApiResponse;
+  };
+
+
+  const onSubmit = async (data: QualificationDetailsFormData) => {
+
+    try {
+
+      const res = await qualificationDetails(data);
+       
+      if ('error' in res && res.error) {
+        const errorData = res.error as FetchBaseQueryErrorWithData;
+  
+        if (errorData.data?.success === false) {
+          toast.error(errorData.data.message); 
+          return;
+        }
+      }
+      
+      const successData = res.data as ApiResponse;
+      toast.success(successData.message);
+      Router.push("/location");
+    }catch(error) {
+      toast.error("An unexpected error occurred.");
+    }
   };
 
   return (
@@ -92,7 +136,7 @@ const QualificationDetailsForm = () => {
             <div className="">
               <select
               
-                {...register("workingStatus")}
+                {...register("currentWorkingStatus")}
                 className="w-full rounded-[0.5rem] border bg-[#F9F5FFE5] p-2 text-[#838E9E]"
               >
                 <option value="" disabled selected>
@@ -101,9 +145,9 @@ const QualificationDetailsForm = () => {
                 <option value={"yes"}>Yes</option>
                 <option value={"no"}>No</option>
               </select>
-              {errors.workingStatus && (
+              {errors.currentWorkingStatus && (
                 <p className="text-orange-200 text-sm mt-1">
-                  {errors.workingStatus.message}
+                  {errors.currentWorkingStatus.message}
                 </p>
               )}
             </div>
@@ -138,18 +182,18 @@ const QualificationDetailsForm = () => {
               <option value="" disabled selected >
                 Select your income
               </option>
-              <option value="Less than $5,000">Less than $5,000</option>
-              <option value="$5,000 - $10,000">$5,000 - $10,000</option>
-              <option value="$10,000 - $15,000">$10,000 - $15,000</option>
-              <option value="$15,000 - $20,000">$15,000 - $20,000</option>
-              <option value="$20,000 - $25,000">$20,000 - $25,000</option>
-              <option value="$25,000 - $30,000">$25,000 - $30,000</option>
-              <option value="$30,000 - $35,000">$30,000 - $35,000</option>
-              <option value="$35,000 - $40,000">$35,000 - $40,000</option>
-              <option value="$40,000 - $45,000">$40,000 - $45,000</option>
-              <option value="$45,000 - $50,000">$45,000 - $50,000</option>
-              <option value="$50,000 - $55,000">$50,000 - $55,000</option>
-              <option value="$55,000 - $60,000">$55,000 - $60,000</option>
+              <option value="Less than 5,000">Less than $5,000</option>
+              <option value="5,000 -  10,000">$5,000 - $10,000</option>
+              <option value="10,000 - 15,000">$10,000 - $15,000</option>
+              <option value="15,000 - 20,000">$15,000 - $20,000</option>
+              <option value="20,000 - 25,000">$20,000 - $25,000</option>
+              <option value="25,000 - 30,000">$25,000 - $30,000</option>
+              <option value="30,000 - 35,000">$30,000 - $35,000</option>
+              <option value="35,000 - 40,000">$35,000 - $40,000</option>
+              <option value="40,000 - 45,000">$40,000 - $45,000</option>
+              <option value="45,000 - 50,000">$45,000 - $50,000</option>
+              <option value="50,000 - 55,000">$50,000 - $55,000</option>
+              <option value="55,000 - 60,000">$55,000 - $60,000</option>
             </select>
             {errors.income && (
               <p className="text-orange-200 text-sm mt-1">
