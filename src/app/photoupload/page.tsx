@@ -4,6 +4,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { useProfileImageUploadMutation } from "@/Redux/Api/form.api";
 import { useRouter } from "next/navigation";
+import withAuth from "@/Components/WithAuth/WithAuth";
 import "../../app/font.css";
 
 const Page = () => {
@@ -30,15 +31,15 @@ const Page = () => {
   const handleSubmit = async () => {
     if (uploadedImages.length > 0) {
       const formData = new FormData();
-      uploadedImages.forEach((image) => formData.append("images", image));
+      uploadedImages.forEach((image) => formData.append("profileImage", image));
 
       try {
         const response = await uploadProfileImage(formData).unwrap();
-        if (response.success) {
-          toast.success("Images uploaded successfully!");
+        if (response.data.success == true) {
+          toast.success(response.data.message);
           router.push("/otherdetails");
         } else {
-          toast.error("Failed to upload images. Please try again.");
+          toast.error(response.error.message);
         }
       } catch (error) {
         toast.error("An error occurred during the upload.");
@@ -139,4 +140,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default withAuth(Page);

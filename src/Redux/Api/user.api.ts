@@ -4,7 +4,7 @@ import { RootState } from '../store';
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api/v1/user/',
+    baseUrl: 'https://api.vigorify.in/api/v1/user/',
     credentials: 'include',  
     prepareHeaders: (headers, { getState }) => {
       const accessToken = (getState() as RootState).userReducer.accessToken;

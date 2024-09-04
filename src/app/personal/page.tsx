@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import "../../app/font.css";
 import { toast } from 'sonner'
 import { RootState } from "@/Redux/store";
+import withAuth from "@/Components/WithAuth/WithAuth";
 import { useSelector } from 'react-redux';
 import { LoadingOutlined } from '@ant-design/icons';
 
@@ -250,4 +251,4 @@ const PersonalDetailsForm  = () => {
   
 };
 
-export default PersonalDetailsForm;
+export default withAuth(PersonalDetailsForm);

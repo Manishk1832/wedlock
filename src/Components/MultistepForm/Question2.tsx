@@ -12,7 +12,7 @@ const question = [
 
 
 type QuestionProps = {
-  selectedOptions: { questionId: number; answerValue: string | string[] }[];
+  selectedOptions: { questionId: number; answerValue: string}[];
   handleOptionChange: (questionId: number, answerValue: string | string[]) => void;
 };
 

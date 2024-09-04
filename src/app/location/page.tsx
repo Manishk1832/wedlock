@@ -12,6 +12,7 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { LoadingOutlined } from '@ant-design/icons';
 import { RootState } from "@/Redux/store";
+import withAuth from "@/Components/WithAuth/WithAuth";
 import { toast } from "sonner";
 import { useSelector } from 'react-redux';
 
@@ -24,15 +25,7 @@ const locationSchema = z.object({
 
 const Page = () => { 
   const Router = useRouter();
-
- const accessToken = useSelector((state:RootState) => state.userReducer.accessToken);
-
-
-
   const [locationDetails, { isLoading }] = useLocationDetailsMutation();
-  
-  
-
   const {
     register,
     handleSubmit,
@@ -71,7 +64,6 @@ const Page = () => {
   };
 
   return (
-    <ProtectedRoute isAuthenticated={accessToken?true:false} redirectTo="/login/" >
       <div className="flex min-h-screen flex-col items-center justify-center bg-[#007EAF] px-5 md:px-20 lg:px-40 3xl:px-60">
         <Image
           src="/logowhite.png"
@@ -216,8 +208,8 @@ const Page = () => {
           </form>
         </div>
       </div>
-    </ProtectedRoute>
+   
   );
 };
 
-export default Page;
+export default withAuth(Page);

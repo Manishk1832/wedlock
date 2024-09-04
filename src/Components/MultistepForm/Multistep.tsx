@@ -25,8 +25,9 @@ const Multistep = () => {
 
 
   const [selectedOptions, setSelectedOptions] = useState<
-    { questionId: number; answerValue: string | string[] }[]
+    { questionId: number; answerValue: string }[]
   >([]);
+  
 
   console.log(selectedOptions,"selected")
 

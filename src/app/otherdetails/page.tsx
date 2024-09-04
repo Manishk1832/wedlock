@@ -8,6 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useOtherDetailsMutation } from "@/Redux/Api/form.api";
 import { RootState } from "@/Redux/store";
 import { useSelector } from 'react-redux';
+import withAuth from "@/Components/WithAuth/WithAuth";
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import {toast} from 'sonner'
 import ProtectedRoute from "@/Components/ProtectedRoute";
@@ -95,6 +96,7 @@ const OtherDetailsForm = () => {
       Router.push("/")
       
     } catch(error){
+       toast.error
       
     }
     console.log(data);
@@ -264,4 +266,4 @@ const OtherDetailsForm = () => {
   );
 };
 
-export default OtherDetailsForm;
+export default withAuth(OtherDetailsForm);

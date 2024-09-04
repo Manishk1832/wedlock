@@ -6,6 +6,7 @@ import { z } from "zod";
 import {useQualificationDetailsMutation} from "../../Redux/Api/form.api";
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query/react';
 import { RootState } from "@/Redux/store";
+import withAuth from "@/Components/WithAuth/WithAuth";
 import { useSelector } from 'react-redux';
 import ProtectedRoute from "@/Components/ProtectedRoute";
 import { useRouter } from "next/navigation";
@@ -216,4 +217,4 @@ const QualificationDetailsForm = () => {
   );
 };
 
-export default QualificationDetailsForm;
+export default withAuth(QualificationDetailsForm);

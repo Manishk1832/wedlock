@@ -4,7 +4,7 @@ import { RootState } from '../store';
 const formApi = createApi({
     reducerPath: 'formApi',
     baseQuery: fetchBaseQuery({
-        baseUrl: 'http://localhost:8000/api/v1/form/',
+        baseUrl: 'https://api.vigorify.in/api/v1/form/',
         credentials: 'include',   // send cookies with request
         prepareHeaders: (headers, { getState }) => {
           const accessToken = (getState() as RootState).userReducer.accessToken;

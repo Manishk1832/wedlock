@@ -65,18 +65,13 @@ const Login = () => {
 
       dispatch(setUser(res.data));
 
-     
       const successData = res.data as ApiResponse;
       toast.success(successData.message);
-
-     
-      
 
       if(accessToken){
         router.push("/profile");
       }
 
-     
     } catch (error) {
       toast.error("An error occurred");
 

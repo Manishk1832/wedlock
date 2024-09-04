@@ -2,12 +2,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import Cookies from 'js-cookie';
 
+
 const accessToken = Cookies.get('access_token') || null;
 const refreshToken = Cookies.get('refresh_token') || null;
 console.log(accessToken,"accessToken from cookie");
 
 const activationToken = Cookies.get('activationToken') || null;
 const token = Cookies.get('token') || null;
+
+
 
 
 
@@ -25,7 +28,6 @@ const initialState = {
 
 };
 
-console.log(initialState.user ,"initialState.user");
 
 
 

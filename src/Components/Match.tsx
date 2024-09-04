@@ -1,60 +1,100 @@
 "use client";
 
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import { Switch } from "antd";
 import { CiMap } from "react-icons/ci";
 import { IoLanguage } from "react-icons/io5";
 import { FaSmoking } from "react-icons/fa";
 import { FaWineGlassAlt } from "react-icons/fa";
+import { useSelector } from 'react-redux';
+import { RootState } from "@/Redux/store";
+import { useRouter } from "next/navigation";
+import withAuth from "@/Components/WithAuth/WithAuth";
+import { useUserByidMutation } from "@/Redux/Api/profile.api";
 import { FaUserGraduate } from "react-icons/fa";
 import "../app/font.css";
 import '../app/globals.css'
 
-const Match = () => {
+interface MatchProps {
+  id: string;
+}
+
+const Match: React.FC<MatchProps> = ({ id }) => {
+  const [profileData, setProfileData] = useState<any>([]);
+  const [userByid, { isLoading, isSuccess, isError }] = useUserByidMutation();
+
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      try {
+        const response = await userByid({ id }).unwrap();
+        setProfileData(response.data);
+      } catch (error) {
+        console.error('Failed to fetch user data:', error);
+      }
+    };
+
+    fetchProfileData();
+  }, [id, userByid]);
+
+  if (isLoading) {
+    return <p>Loading...</p>;
+  }
+
+  if (isError) {
+    return <p>Failed to load user data.</p>;
+  }
+
+  if (isSuccess && profileData.length === 0) {
+    return <p>No user data found.</p>;
+  }
+
+
+
+
   return (
     <div className="min-w-screen flex min-h-screen flex-col md:gap-10 lg:flex-row">
-      <div className="flex w-[100%] items-center justify-center md:flex-none md:items-start lg:w-[25%]">
-        <Image
-          src="/userImage.png"
-          width={200}
-          height={200}
-          alt="user"
-          className="h-50 w-full md:h-auto md:w-auto xl:h-80 xl:w-80"
-        />
+      <div className="mb-4 grid grid-cols-2 gap-2 md:mb-0  auto-rows-[10rem] ">
+        {profileData[0]?.profileImages.map((imageUrl: string, index: number) => (
+          <Image
+            key={index}
+            src={imageUrl}
+            alt="profile image"
+            width={292}
+            height={292}
+            className="object-cover w-full h-full rounded-md"
+          />
+        ))}
       </div>
-
       <div className="col-span-1 grid w-[100%] gap-4 md:col-span-2">
         <div className="col-span-1 w-[100%] rounded-xl bg-white p-6 md:col-span-2 md:w-auto xl:h-[23rem]">
           <div
             className="self-start text-sm font-semibold  leading-5 text-zinc-900"
           >
             <h1>Basic & Lifestyle</h1>
-            
+
           </div>
           <div className="mt-2.5 flex flex-wrap items-center gap-2.5 self-start text-base font-medium leading-4 text-slate-900">
             <div className="self-stretch text-xl font-bold leading-10 text-cyan-600 lg:text-3xl">
-              <h1>Pranav Sachaniya </h1>
+              <h1>{profileData[0]?.basic_and_lifestye?.displayName || profileData[0]?.basic_and_lifestye?.firstName + " " + profileData[0]?.basic_and_lifestye?.lastName} </h1>
             </div>
             <div className="text-md my-auto justify-center  self-stretch whitespace-nowrap rounded-[100px] bg-orange-100 px-1 py-1.5 text-center capitalize tracking-normal md:px-3 ">
-              <p>Male</p>
-              
+              <p>  {profileData[0]?.basic_and_lifestye?.gender}</p>
+
             </div>
             <div className=" my-auto text-md justify-center self-stretch whitespace-nowrap rounded-[100px] bg-orange-100 px-1 py-1.5 text-center capitalize trackingl md:px-3">
-              25
+              {profileData[0]?.basic_and_lifestye?.age}
             </div>
           </div>
           <div className="mt-6 flex flex-col rounded-xl bg-cyan-600 bg-opacity-20 px-6 py-3 max-md:max-w-full max-md:px-5">
             <div className="text-base font-bold leading-6 tracking-wide text-gray-900 text-opacity-90 max-md:max-w-full">
-              <h1>About Pranav</h1>
-              
+              About {profileData[0]?.basic_and_lifestye?.displayName || profileData[0]?.basic_and_lifestye?.firstName + " " + profileData[0]?.basic_and_lifestye?.lastName}
+
             </div>
             <div className="mt-4 text-sm leading-7 tracking-wide text-slate-600 max-md:max-w-full md:text-lg">
-              <p> Lorem ipsum dolor sit amet consectetur. In sodales ut potenti nec
-              est at proin. Semper pharetra neque quis donec ut. Vitae quisque
-              elementum eleifend sed molestie fusce arcu ut</p>
-             
+              <p>  {profileData[0]?.basic_and_lifestye?.about}</p>
+
             </div>
           </div>
           <div className="mt-4 flex flex-col max-md:max-w-full md:px-5">
@@ -66,7 +106,7 @@ const Match = () => {
                 Religion
               </div>
               <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-blue-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-blue-600">
-                Hindu
+              {profileData[0]?.basic_and_lifestye?.religion}
               </div>
             </div>
             <div className="mt-2 flex justify-between gap-0 font-normal max-md:flex-wrap">
@@ -77,7 +117,7 @@ const Match = () => {
                 Marital status
               </div>
               <div className="justify-center self-start rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-slate-900">
-                Not married
+                {profileData[0]?.basic_and_lifestye?.maritalStatus}
               </div>
             </div>
             <div className="mt-2 flex justify-between gap-0 max-md:flex-wrap">
@@ -85,10 +125,10 @@ const Match = () => {
                 className="text-md flex-1 font-normal leading-8 tracking-wide text-gray-900 text-opacity-90 max-md:max-w-full md:text-lg"
                 style={{ fontFamily: "Proxima-Nova-Semibold, sans-serif" }}
               >
-                Posted by{" "}
+                Posted By
               </div>
               <div className="justify-center self-start rounded-[100px] bg-purple-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-violet-600">
-                Self
+              {profileData[0]?.basic_and_lifestye?.postedBy}
               </div>
             </div>
           </div>
@@ -108,7 +148,7 @@ const Match = () => {
                 Father occupation
               </div>
               <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-blue-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-blue-600">
-                Hindu
+                {profileData[0]?.family_details?.fatherOccupation}
               </div>
             </div>
             <div className="mt-4 flex justify-between gap-0 max-md:flex-wrap">
@@ -116,7 +156,7 @@ const Match = () => {
                 Mother occupation
               </div>
               <div className="justify-center self-start rounded-[100px] bg-neutral-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-slate-900">
-                Not Specified
+                {profileData[0]?.family_details?.motherOccupation}
               </div>
             </div>
             <div className="mt-4 flex justify-between gap-0 max-md:flex-wrap">
@@ -124,7 +164,7 @@ const Match = () => {
                 Number of siblings
               </div>
               <div className="justify-center self-start rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-slate-900">
-                Suthar
+                {profileData[0]?.family_details?.numberOfSiblings}
               </div>
             </div>
             <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
@@ -132,7 +172,7 @@ const Match = () => {
                 Living with family
               </div>
               <div className="justify-center self-start rounded-[100px] bg-purple-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-violet-600">
-                Not Specified
+                {profileData[0]?.family_details?.livingWithFamily}
               </div>
             </div>
             {/* </div> */}
@@ -158,7 +198,7 @@ const Match = () => {
               </div>
 
               <div className="text-md ml-8 mt-2 justify-center self-start rounded-[100px] bg-blue-50 px-3 py-1.5 text-center font-medium capitalize leading-7 text-cyan-600 max-md:ml-2.5 md:text-xl">
-                5’ 66’’
+                {profileData[0]?.personal_background?.height}
               </div>
               <div className="mt-6 flex items-center gap-1 whitespace-nowrap">
                 <div className="text-xl leading-8 text-cyan-600 md:text-3xl">
@@ -169,7 +209,7 @@ const Match = () => {
                 </div>
               </div>
               <div className="text-md ml-8 mt-2 justify-center self-start rounded-[100px] bg-blue-50 px-3 py-1.5 text-center font-medium capitalize leading-7 text-cyan-600 max-md:ml-2.5 md:text-xl">
-                70 KG
+                {profileData[0]?.personal_background?.weight}
               </div>
               <div className="mt-6 flex items-center gap-1">
                 <div className="text-xl leading-8 text-cyan-600 md:text-3xl">
@@ -180,11 +220,7 @@ const Match = () => {
                 </div>
               </div>
               <div className="text-md ml-8 mt-2 flex justify-center gap-1.5 self-start rounded-[100px] border border-solid border-gray-200 bg-blue-50 bg-opacity-50 px-5 py-2 font-medium capitalize leading-7 text-cyan-600 max-md:ml-2.5 md:py-4 md:text-xl">
-                <select className="rounded-[100px] bg-blue-50 bg-opacity-50 max-md:ml-2.5">
-                  <option>Mesomorph</option>
-                  <option>Endomorph</option>
-                  <option>Ectomorph</option>
-                </select>
+                {profileData[0]?.personal_background?.bodyType}
               </div>
               <div className="mt-6 flex items-center gap-1 whitespace-nowrap text-xl leading-8 tracking-wide text-slate-600">
                 <div className="text-xl leading-8 text-cyan-600 md:text-3xl">
@@ -196,7 +232,7 @@ const Match = () => {
                 </div>
               </div>
               <div className="text-md ml-8 mt-2 justify-center self-start rounded-[100px] bg-pink-50 px-3 py-1.5 text-center font-medium capitalize leading-7 text-pink-400 max-md:ml-2.5 md:text-xl">
-                Gujarati, Hindi, English
+                {profileData[0]?.personal_background?.language}
               </div>
               <div className="mt-6 flex items-center gap-1 text-xl leading-8 tracking-wide text-slate-600">
                 <div className="text-xl leading-8 text-cyan-600 md:text-3xl">
@@ -208,7 +244,7 @@ const Match = () => {
                 </div>
               </div>
               <div className="text-md ml-9 mt-2 justify-center self-start rounded-[100px] bg-green-100 px-3 py-1.5 text-center font-medium capitalize leading-7 text-green-700 max-md:ml-2.5 md:text-xl">
-                Non - Smoker
+                {profileData[0]?.personal_background?.smokingHabbit}
               </div>
               <div className="mt-6 flex items-center gap-1 text-xl leading-8 tracking-wide text-slate-600">
                 <div className="text-xl leading-8 text-cyan-600 md:text-3xl">
@@ -221,7 +257,7 @@ const Match = () => {
                 </div>
               </div>
               <div className="text-md ml-7 mt-2 justify-center self-start rounded-[100px] bg-gray-200 px-3 py-1.5 text-center font-medium capitalize leading-7 text-slate-900 max-md:ml-2.5 md:text-xl">
-                Non - alcoholic
+                {profileData[0]?.personal_background?.drinkingHabbit}
               </div>
               <div className="mt-6 flex items-center gap-1 whitespace-nowrap">
                 <div className="text-xl leading-8 text-cyan-600 md:text-3xl">
@@ -232,7 +268,7 @@ const Match = () => {
                 </div>
               </div>
               <div className="text-md ml-8 mt-2 justify-center self-start whitespace-nowrap rounded-[100px] bg-neutral-100 px-3 py-1.5 text-center font-medium capitalize leading-7 text-slate-900 max-md:ml-2.5 md:text-xl">
-                Veg
+                {profileData[0]?.personal_background?.diet}
               </div>
               <div className="mt-6 flex items-center gap-2 whitespace-nowrap">
                 <div className="text-xl leading-8 text-cyan-600 md:text-3xl">
@@ -243,7 +279,7 @@ const Match = () => {
                 </div>
               </div>
               <div className="text-md ml-8 mt-2 justify-center self-start rounded-[100px] bg-neutral-100 px-3 py-1.5 text-center font-medium capitalize leading-7 text-slate-900 max-md:ml-2.5 md:text-xl">
-                Dark Light
+                {profileData[0]?.personal_background?.complexion}
               </div>
             </div>
           </div>
@@ -263,7 +299,7 @@ const Match = () => {
                   Religion
                 </div>
                 <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-blue-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-blue-600">
-                  Hindu
+                  {profileData[0]?.religious_background?.religion}
                 </div>
               </div>
               <div className="mt-4 flex justify-between gap-0 max-md:flex-wrap">
@@ -271,7 +307,7 @@ const Match = () => {
                   Sub community
                 </div>
                 <div className="justify-center self-start rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-slate-900">
-                  Not Specified
+                  {profileData[0]?.religious_background?.subCommunity}
                 </div>
               </div>
               <div className="mt-4 flex justify-between gap-0 font-normal max-md:flex-wrap">
@@ -279,7 +315,7 @@ const Match = () => {
                   Community
                 </div>
                 <div className="justify-center self-start rounded-[100px] bg-purple-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-violet-600">
-                  Suthar
+                  {profileData[0]?.religious_background?.community}
                 </div>
               </div>
               <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
@@ -287,16 +323,44 @@ const Match = () => {
                   Gothra / Gothram
                 </div>
                 <div className="justify-center self-start rounded-[100px] bg-pink-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-pink-400">
-                  Not Specified
+                  {profileData[0]?.religious_background?.gothra}
                 </div>
               </div>
+              <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
+                <div className="text-md font-normal leading-8 tracking-wide text-slate-600 md:text-xl">
+                   Date of Birth
+                </div>
+                <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-green-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-green-700">
+                  {profileData[0]?.religious_background?.dateOfBirth}
+                </div>
+                </div>
+
+                <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
+                <div className="text-md font-normal leading-8 tracking-wide text-slate-600 md:text-xl">
+                   Time of Birth
+                </div>
+                <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-green-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-green-700">
+                  {profileData[0]?.religious_background?.timeOfBirth}
+                </div>
+                </div>
+
+                <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
+                <div className="text-md font-normal leading-8 tracking-wide text-slate-600 md:text-xl">
+                   Place of Birth
+                </div>
+                <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-green-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-green-700">
+                  {profileData[0]?.religious_background?.placeOfBirth}
+                </div>
+                </div>
+
               <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
                 <div className="text-md font-normal leading-8 tracking-wide text-slate-600 md:text-xl">
                   Mother Tongue
                 </div>
                 <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-green-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-green-700">
-                  Gujarati
+                  {profileData[0]?.religious_background?.motherTongue}
                 </div>
+
               </div>
             </div>
           </div>
@@ -315,7 +379,7 @@ const Match = () => {
                 Current location
               </div>
               <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-blue-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-blue-600">
-                Hindu
+                {profileData[0]?.location_background?.currentLocation}
               </div>
             </div>
             <div className="mt-4 flex justify-between gap-0 max-md:flex-wrap">
@@ -323,7 +387,8 @@ const Match = () => {
                 City of residence
               </div>
               <div className="justify-center self-start rounded-[100px] bg-purple-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-violet-600">
-                Suthar
+                {profileData[0]?.location_background?.cityOfResidence || "Not Specified"}
+
               </div>
             </div>
             <div className="mt-4 flex justify-between gap-0 max-md:flex-wrap">
@@ -331,7 +396,7 @@ const Match = () => {
                 Nationality
               </div>
               <div className="justify-center self-start rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-slate-900">
-                Not Specified
+                {profileData[0]?.location_background?.nationality}
               </div>
             </div>
             <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
@@ -339,7 +404,7 @@ const Match = () => {
                 Citizenship
               </div>
               <div className="justify-center self-start rounded-[100px] bg-pink-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-pink-400">
-                Not Specified
+                {profileData[0]?.location_background?.citizenShip}
               </div>
             </div>
             <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
@@ -347,7 +412,7 @@ const Match = () => {
                 Residency visa status
               </div>
               <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-green-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-green-700">
-                Gujarati
+                {profileData[0]?.location_background?.residencyVisaStatus}
               </div>
             </div>
           </div>
@@ -358,37 +423,14 @@ const Match = () => {
               Interest and hobbies
             </div>
             <div className="mt-4 flex gap-2.5 whitespace-nowrap text-center capitalize tracking-wide max-md:pr-5 md:flex-wrap">
-              <div className="justify-center rounded-[100px] bg-gray-200 px-3 py-1.5">
-                Photographie
-              </div>
-              <div className="justify-center rounded-[100px] bg-gray-200 px-3 py-1.5">
-                Cinema
-              </div>
-              <div className="justify-center rounded-[100px] bg-gray-200 px-3 py-1.5">
-                Technologie
-              </div>
-            </div>
-            <div className="mt-2.5 flex items-start gap-2.5 whitespace-nowrap text-center capitalize tracking-wide max-md:pr-5 md:flex-wrap">
-              <div className="flex flex-col self-stretch">
-                <div className="flex gap-2.5">
-                  <div className="justify-center rounded-[100px] bg-gray-200 px-3 py-1.5">
-                    Musique
-                  </div>
-                  <div className="justify-center rounded-[100px] bg-gray-200 px-3 py-1.5">
-                    Sport
-                  </div>
+              {profileData[0]?.interest_and_hobbies?.map((interest: string) => (
+                <div key={interest} className="justify-center rounded-[100px] bg-gray-200 px-3 py-1.5">
+                  {interest}
                 </div>
-                <div className="mt-2.5 justify-center rounded-[100px] bg-gray-200 px-3 py-1.5">
-                  Théâtre
-                </div>
-              </div>
-              <div className="justify-center rounded-[100px] bg-gray-200 px-3 py-1.5">
-                Voyages
-              </div>
-              <div className="justify-center rounded-[100px] bg-gray-200 px-3 py-1.5">
-                Lecture
-              </div>
-            </div>
+              ))
+              }
+
+      </div>
           </div>
         </div>
         <div className="h-58 rounded-xl bg-white">
@@ -405,12 +447,13 @@ const Match = () => {
                   <span className="text-[#007EAF]">
                     <FaUserGraduate />
                   </span>
-                  <div>Occupation</div>
+                  <div>Qualification</div>
                 </div>
                 <div className="justify-center rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-sm font-medium capitalize leading-7 text-slate-900 md:text-lg">
-                  MBA
+                {profileData[0]?.education_and_financial?.qualification}
                 </div>
               </div>
+
               <div className="mt-4 flex justify-between gap-2 whitespace-nowrap pr-8 max-md:pr-5">
                 <div className="text-md flex items-center justify-between gap-2 self-start leading-8 tracking-wide text-slate-600 md:text-xl">
                   <span className="text-[#007EAF]">
@@ -419,9 +462,22 @@ const Match = () => {
                   <div>Education</div>
                 </div>
                 <div className="justify-center rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-sm font-medium capitalize leading-7 text-slate-900 md:text-lg">
-                  MBA
+                {profileData[0]?.education_and_financial?.education}
                 </div>
               </div>
+                  
+              <div className="mt-4 flex justify-between gap-2 whitespace-nowrap pr-8 max-md:pr-5">
+                <div className="text-md flex items-center justify-between gap-2 self-start leading-8 tracking-wide text-slate-600 md:text-xl">
+                  <span className="text-[#007EAF]">
+                    <FaUserGraduate />
+                  </span>
+                  <div>Working Status</div>
+                </div>
+                <div className="justify-center rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-sm font-medium capitalize leading-7 text-slate-900 md:text-lg">
+                {profileData[0]?.education_and_financial?.workingStatus}
+                </div>
+              </div>
+
               <div className="mt-4 flex justify-between gap-2 pr-8 max-md:pr-5">
                 <div className="text-md flex items-center justify-around gap-2 self-start whitespace-nowrap leading-8 tracking-wide text-slate-600 md:text-xl">
                   <span className="text-[#007EAF]">
@@ -430,7 +486,7 @@ const Match = () => {
                   <div>Income</div>
                 </div>
                 <div className="justify-center rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-sm font-medium capitalize leading-7 text-slate-900 md:text-lg">
-                  $ <span className="">80k - 100k</span>
+                  $<span className="">{profileData[0]?.education_and_financial?.income}</span>
                 </div>
               </div>
             </div>

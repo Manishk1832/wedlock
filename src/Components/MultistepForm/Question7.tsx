@@ -49,14 +49,14 @@ const Question7: React.FC<QuestionProps> = ({
     );
 
     const currentValue = currentOption?.answerValue || "";
-    const [firstAge, secondAge] = currentValue.split(",");
+    const [firstAge, secondAge] = currentValue.split("-");
 
     // Update the value based on which select was changed
     let updatedValue;
     if (isFirst) {
-      updatedValue = `${selectedOption?.value || ""}, ${secondAge || ""}`;
+      updatedValue = `${selectedOption?.value || ""}-${secondAge || ""}`;
     } else {
-      updatedValue = `${firstAge || ""}, ${selectedOption?.value || ""}`;
+      updatedValue = `${firstAge || ""}-${selectedOption?.value || ""}`;
     }
 
     // Call the change handler with the updated value
@@ -67,7 +67,7 @@ const Question7: React.FC<QuestionProps> = ({
   const currentOption = selectedOptions.find(
     (opt) => opt.questionId === question[0].id
   );
-  const [selectedFirstAge, selectedSecondAge] = (currentOption?.answerValue || "").split(",");
+  const [selectedFirstAge, selectedSecondAge] = (currentOption?.answerValue || "").split("-");
 
   return (
     <div>

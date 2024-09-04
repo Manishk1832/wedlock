@@ -16,11 +16,13 @@ import { useRouter } from "next/navigation";
 import Favourate from "@/Components/Favourate";
 import withAuth from "@/Components/WithAuth/WithAuth";
 import UserDetails from "@/Components/UserDetails";
+import Cookies from 'js-cookie'
 import '../../app/globals.css'
 
 
 const Profile: React.FC = () => {
-  const accessToken = useSelector((state:RootState) => state.userReducer.accessToken);
+
+
 
  
 

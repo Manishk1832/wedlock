@@ -4,7 +4,7 @@ import { RootState } from '../store';
  export const profileApi = createApi({
   reducerPath: 'profileApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:8000/api/v1/profile/',
+    baseUrl: 'https://api.vigorify.in/api/v1/profile/',
     credentials: 'include', // send cookies with request
     prepareHeaders: (headers, { getState }) => {
       const accessToken = (getState() as RootState).userReducer.accessToken;
@@ -82,6 +82,16 @@ import { RootState } from '../store';
         url: 'getProfiles',
       }),
       providesTags: ['profile'],
+    }),
+
+    userByid: builder.mutation({
+      query: (id) => ({
+        url: '/getUserDetails',
+        method: 'POST',
+        body: { id },
+      }),
+      invalidatesTags: ['profile'],
+      
     })
     
   }),
@@ -89,5 +99,5 @@ import { RootState } from '../store';
   
 });
 
- export const { useMyDetailsQuery,useUpdateEducationAndFinancialDetailsMutation,useUpdateFamilyDetailsMutation,useUpdateLocationDetailsMutation,useUpdatePersonalBackgroundMutation,useUpdatePersonalDetailsMutation,useUpdateReligiousBackgroundMutation,useGetProfilesQuery } = profileApi;
+ export const { useMyDetailsQuery,useUpdateEducationAndFinancialDetailsMutation,useUpdateFamilyDetailsMutation,useUpdateLocationDetailsMutation,useUpdatePersonalBackgroundMutation,useUpdatePersonalDetailsMutation,useUpdateReligiousBackgroundMutation,useGetProfilesQuery,useUserByidMutation } = profileApi;
 

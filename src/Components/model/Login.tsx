@@ -171,7 +171,7 @@ const Login: React.FC<LoginProps> = ({ isOpen, onClose }) => {
             className="bg-[#007EAF] text-white px-4 py-2  h-10 w-full rounded-3xl"
           >
             {isLoading ? (
-              <LoadingOutlined className="text-[#007EAF] animate-spin" />
+              <LoadingOutlined className="text-white animate-spin" />
             ) : (
               "Login"
             )}

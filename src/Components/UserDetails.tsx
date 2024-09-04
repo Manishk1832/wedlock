@@ -137,7 +137,7 @@ console.log(myDetails,"myDetails");
                 </div>
                 <div className="mt-2.5 flex flex-wrap items-center gap-2.5 self-start text-base font-medium leading-4 text-slate-900">
                   <div className="self-stretch text-xl font-bold leading-10 text-cyan-600 lg:text-3xl">
-                  {myDetails?.data[0]?.basic_and_lifestye?.displayName || myDetails?.data[0]?.basic_and_lifestye?.firstName + " " + myDetails?.data[0]?.basic_and_lifestye?.lastName}
+                  { myDetails?.data[0]?.basic_and_lifestye?.firstName + " " + myDetails?.data[0]?.basic_and_lifestye?.lastName}
                   </div>
                   <div className="my-auto justify-center self-stretch whitespace-nowrap rounded-[100px] bg-orange-100 px-3 py-1.5 text-center capitalize tracking-normal">
                   {myDetails?.data[0]?.basic_and_lifestye?.gender}
@@ -149,7 +149,7 @@ console.log(myDetails,"myDetails");
                 </div>
                 <div className="mt-6 flex flex-col rounded-xl bg-cyan-600 bg-opacity-20 px-6 py-3 max-md:max-w-full max-md:px-5">
                   <div className="text-base font-bold leading-6 tracking-wide text-gray-900 text-opacity-90 max-md:max-w-full">
-                    About {myDetails?.data[0].basic_and_lifestye?.displayName || myDetails?.data[0]?.basic_and_lifestye?.firstName + " " + myDetails?.data[0]?.basic_and_lifestye?.lastName }
+                    About { myDetails?.data[0]?.basic_and_lifestye?.firstName + " " + myDetails?.data[0]?.basic_and_lifestye?.lastName }
                   </div>
                   <div className="mt-4 text-sm leading-7 tracking-wide text-slate-600 max-md:max-w-full md:text-lg">
                    {myDetails?.data[0].basic_and_lifestye?.about}
@@ -161,17 +161,19 @@ console.log(myDetails,"myDetails");
                       Religion
                     </div>
                     <div className="justify-center self-start whitespace-nowrap rounded-[100px] bg-blue-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-blue-600">
-                      Hindu
+                    {myDetails?.data[0].basic_and_lifestye?.religion }
                     </div>
                   </div>
+
                   <div className="mt-2 flex justify-between gap-0 max-md:flex-wrap">
                     <div className="flex-1 text-lg leading-8 tracking-wide text-gray-900 text-opacity-90 max-md:max-w-full">
                       Marital status
                     </div>
                     <div className="justify-center self-start rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-slate-900">
-                      {myDetails?.data[0].basic_and_lifestye?.maritalStatus                      }
+                      {myDetails?.data[0].basic_and_lifestye?.maritalStatus }
                     </div>
                   </div>
+
                   <div className="mt-2 flex justify-between gap-0 max-md:flex-wrap">
                     <div className="flex-1 text-lg leading-8 tracking-wide text-gray-900 text-opacity-90 max-md:max-w-full">
                       Posted by{" "}
@@ -180,6 +182,8 @@ console.log(myDetails,"myDetails");
                       {myDetails?.data[0].basic_and_lifestye?.postedBy}
                     </div>
                   </div>
+
+
                 </div>
               </div>
               <div className="h-[28rem] xl:w-[30%] w-auto rounded-lg bg-[#FEE7BD] p-5 md:h-[26rem]">
@@ -273,7 +277,7 @@ console.log(myDetails,"myDetails");
           </div>
           {/* Personal Background */}
 
-          <div className="row-span-3 h-[60rem] rounded-xl bg-white">
+          <div className="row-span-3  rounded-xl bg-white">
             <div className="flex flex-col rounded-xl bg-white pb-6 shadow-sm">
               <div
                 className="justify-center border-b border-solid border-zinc-300 px-6 py-4 text-lg leading-6 tracking-wide text-cyan-600 max-md:px-5 md:text-xl"
@@ -398,8 +402,8 @@ console.log(myDetails,"myDetails");
           </div>
           {/* Religious Background */}
 
-          <div className="h-[20rem] rounded-xl bg-white">
-            <div className="flex h-[20rem] flex-col rounded-xl bg-white pb-6 shadow-sm max-md:max-w-full">
+          <div className="h-[28rem] rounded-xl bg-white">
+            <div className="flex h-[28rem] flex-col rounded-xl bg-white pb-6 shadow-sm max-md:max-w-full">
               <div
                 className="justify-center border-b border-solid border-zinc-300 px-6 py-4 text-lg leading-6 tracking-wide text-cyan-600 max-md:max-w-full max-md:px-5 md:text-xl"
                 style={{ fontFamily: "Proxima-Nova-Bold, sans-serif" }}
@@ -449,6 +453,7 @@ console.log(myDetails,"myDetails");
                   {myDetails?.data[0]?.religious_background?.community}
                   </div>
                 </div>
+
                 <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
                   <div className="text-md font-normal leading-8 tracking-wide text-slate-600 md:text-xl">
                     Gothra / Gothram
@@ -457,7 +462,36 @@ console.log(myDetails,"myDetails");
                     {myDetails?.data[0]?.religious_background?.gothra}
                   </div>
                 </div>
+
                 <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
+                  <div className="text-md font-normal leading-8 tracking-wide text-slate-600 md:text-xl">
+                   Time of Birth
+                  </div>
+                  <div className="justify-center self-start rounded-[100px] bg-pink-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-pink-400">
+                    {myDetails?.data[0]?.religious_background?.timeOfBirth}
+                  </div>
+                </div>
+
+                <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
+                  <div className="text-md font-normal leading-8 tracking-wide text-slate-600 md:text-xl">
+                    Date of Birth
+                  </div>
+                  <div className="justify-center self-start rounded-[100px] bg-pink-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-pink-400">
+                    {myDetails?.data[0]?.religious_background?.dateOfBirth}
+                  </div>
+                </div>
+
+                <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap">
+                  <div className="text-md font-normal leading-8 tracking-wide text-slate-600 md:text-xl">
+                   Place of Birth
+                  </div>
+                  <div className="justify-center self-start rounded-[100px] bg-pink-50 px-3 py-1.5 text-center text-base font-medium capitalize leading-4 tracking-normal text-pink-400">
+                    {myDetails?.data[0]?.religious_background?.placeOfBirth}
+                  </div>
+                </div>
+
+
+                <div className="mt-4 flex justify-between gap-4 max-md:max-w-full max-md:flex-wrap mb-4">
                   <div className="text-md font-normal leading-8 tracking-wide text-slate-600 md:text-xl">
                     Mother Tongue
                   </div>
@@ -614,12 +648,13 @@ console.log(myDetails,"myDetails");
                     <span className="text-[#007EAF]">
                       <FaUserGraduate />
                     </span>
-                    <div>Occupation</div>
+                    <div>qualification</div>
                   </div>
                   <div className="justify-center rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-sm font-medium capitalize leading-7 text-slate-900 md:text-lg">
-                    MBA
+                  {myDetails?.data[0]?.education_and_financial?.qualification}
                   </div>
                 </div>
+
                 <div className="mt-4 flex justify-between gap-2 whitespace-nowrap pr-8 max-md:pr-5">
                   <div className="text-md flex items-center justify-between gap-2 self-start leading-8 tracking-wide text-slate-600 md:text-xl">
                     <span className="text-[#007EAF]">
@@ -628,9 +663,23 @@ console.log(myDetails,"myDetails");
                     <div>Education</div>
                   </div>
                   <div className="justify-center rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-sm font-medium capitalize leading-7 text-slate-900 md:text-lg">
-                    MBA
+                  {myDetails?.data[0]?.education_and_financial?.education}
                   </div>
                 </div>
+
+                <div className="mt-4 flex justify-between gap-2 whitespace-nowrap pr-8 max-md:pr-5">
+                  <div className="text-md flex items-center justify-between gap-2 self-start leading-8 tracking-wide text-slate-600 md:text-xl">
+                    <span className="text-[#007EAF]">
+                      <FaUserGraduate />
+                    </span>
+                    <div>Working Status</div>
+                  </div>
+                  <div className="justify-center rounded-[100px] bg-orange-100 px-3 py-1.5 text-center text-sm font-medium capitalize leading-7 text-slate-900 md:text-lg">
+                  {myDetails?.data[0]?.education_and_financial?.workingStatus}
+                  </div>
+                </div>
+
+
                 <div className="mt-4 flex justify-between gap-2 pr-8 max-md:pr-5">
                   <div className="text-md flex items-center justify-around gap-2 self-start whitespace-nowrap leading-8 tracking-wide text-slate-600 md:text-xl">
                     <span className="text-[#007EAF]">
